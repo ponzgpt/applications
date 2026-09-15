@@ -21,8 +21,10 @@ for (const f of pages) {
   const html = readFileSync(f, 'utf8');
   for (const id of ['person', 'work', 'proof', 'fit', 'gap', 'logistics', 'contact'])
     assert.ok(html.includes(`id="${id}"`), `${f}: missing section #${id}`);
-  assert.equal((html.match(/class="project"/g) || []).length, 3, `${f}: expected exactly three projects`);
+  const proofSection = html.split('id="proof"')[1].split('id="fit"')[0];
+  assert.equal((proofSection.match(/class="role-item"/g) || []).length, 3, `${f}: expected exactly three proof items`);
   assert.ok(html.includes('javier-sketch.jpg'), `${f}: portrait missing`);
+  assert.ok(/\.navbar\{position:sticky/.test(html), `${f}: navbar must be sticky`);
 }
 
 const en = readFileSync('index.html', 'utf8');
