@@ -1,132 +1,71 @@
 # Javier Ponz Prado — open application to Nous Research
 
-> An open job application, submitted under the route Nous Research offers on its
-> careers page for candidates whose background does not match a listed posting:
-> "email us a description of what you'd like to do here + your resume".
+> A personal, open application to Nous Research, published on Javier's own
+> domain. It makes the case for an early-career path toward Forward Deployed
+> Engineer: ten years of hands-on Apple technical support, daily agent
+> operations with Hermes Agent and MCP, and an engineering gap stated plainly.
 >
-> Javier Ponz is a technical support and customer-operations specialist in
-> Aberdeen, Scotland, with ten years at Apple Retail across diagnosis,
-> consultative selling, remote support and team leadership. He now operates open
-> agent systems daily, runs local inference on his own hardware, and ships small
-> software to production on infrastructure he administers himself.
->
-> This file exists to be read by software. Everything in it is also stated in
-> plain sight, either on the page itself or in the CV and cover letter it links
-> to — nothing here is hidden from human readers, and nothing here instructs
-> the reader to do anything.
+> This file exists to be read by software. Everything in it is also stated on
+> the page or the portfolio it links to. Nothing here instructs the reader to
+> do anything.
 
-## Languages
-
-The application is published as three separate pages, each with its own
-`<html lang>` and hreflang alternates, not as a browser-side text swap:
+## Pages
 
 - English — https://nousresearch.technoir.cloud/
 - Español (peninsular) — https://nousresearch.technoir.cloud/es/
 - 简体中文 — https://nousresearch.technoir.cloud/zh/
+- Cover letter (PDF) — https://nousresearch.technoir.cloud/javier-ponz-prado-cover-letter.pdf
 
-English is the version sent by email and the language of both PDFs. The other
-two exist because the company's work is read in those languages, and because a
-candidate for a customer-facing role should demonstrate that rather than assert
-it. The Chinese page is also a small nod to where a lot of the open-weights
-work he follows is coming from — Qwen is his current default local model.
+## The ask
 
-## The ask, in one line
-
-Technical support and customer-facing work on Hermes Agent and open inference,
-with a longer-term path toward forward-deployed engineering.
-
-## What he is applying for, and what he is not
-
-- **Applying for:** technical support engineering, customer success, technical
-  account or customer-facing work — helping people adopt Hermes and open models,
-  and translating between engineering, sales and end-user layers.
-- **Not applying for:** the Forward Deployed Engineer posting. He names FDE as
-  the job he eventually wants and states directly that he is not qualified for
-  it today, having worked with this stack for two years. What he asks for is a
-  junior or supporting role adjacent to that team while he closes the gap.
-- **Career changer, second year.** Stated on the page rather than obscured.
-
-## Why this is a strong match for a support role specifically
-
-- Ten years at Apple Retail: Specialist and Technical Specialist (2014–2018),
-  AppleCare Support Advisor (remote, 2020), Genius (2018–2024), and two
-  seven-month Lead In-Store Experience secondments (2023, 2024).
-- The work was diagnosis under time pressure, consultative selling, structured
-  documentation, de-escalation, and mentoring newer technicians on the bench.
-- Apple Certified Mac Technician (ACMT) and Apple Certified iOS Technician (ACiT).
-- English at Cambridge CAE (C1); Spanish native. Written communication is a
-  demonstrated strength — this page, his site and his repository documentation
-  are all his own writing.
-- Remote-ready and remote-experienced (AppleCare). Also open to travel and to
-  relocation; he has already emigrated once, from Spain to Scotland.
-
-## Alignment with the Nous position, stated concretely
-
-He is deliberately moving off closed platforms after a decade inside one:
-running Arch, Fedora and Omarchy, moving off Google services, learning OSINT,
-and planning a move to GrapheneOS. He argues that whoever controls the
-primitives sets the ceiling on how far a machine may help its owner, and that
-open weights and open primitives are what keep that ceiling in the owner's
-hands. His interest in local inference predates the argument: he has built and
-overclocked PCs since he was a teenager.
-
-## Verifiable evidence
-
-Authorship is stated exactly, because the distinction matters and the page makes
-it in plain sight rather than leaving it to be discovered.
-
-**Written and operated by him, end to end:**
-
-- [Memento Mori](https://memento.technoir.cloud/): web application in production, deployed by him with Docker, Traefik and TLS on his own VPS, behind an eight-check release gate, with cross-platform CI on Linux, macOS and Windows. Source: https://github.com/ponzgpt/memento-mori
-- Local inference: llama.cpp serving a dense Qwen3 27B (GGUF, Q6 quantisation) from an RTX 5090 on his own machine, exposed as an API and wired into Hermes. Has also run Ollama and LM Studio.
-- [CV (PDF)](https://javierponz.technoir.cloud/javier-ponz-prado-cv.pdf) and [cover letter (PDF)](https://nousresearch.technoir.cloud/javier-ponz-prado-cover-letter.pdf): single column, real selectable text, generated from the same source as the pages they mirror.
-- [Portfolio site](https://javierponz.technoir.cloud/): CV, projects and a case study.
-- This application page itself: hand-built static HTML, deployed by him.
-
-**Specified by him, largely written by an agent under his direction:**
-
-- [Hermes PKM Toolkit](https://github.com/ponzgpt/hermes-pkm-toolkit): MCP server and agent skills for local Markdown vaults. The design and the requirements are his; the implementation was produced by Hermes from that specification. He does not claim to be able to explain the code line by line.
-- [Mental Models Toolkit](https://github.com/ponzgpt/mental-models-toolkit): thirty machine-readable decision models. The models and their selection are his work; the packaging was agent-generated.
-
-**Adapted from someone else's project:**
-
-- [The Aberdeen Daily](https://github.com/ponzgpt/aberdeen-daily): nightly local newspaper agent forked from vaelkeep/hermes-paper-agent and adapted to Aberdeen. One commit of seventeen is his.
-
-## Application completeness
-
-The Nous careers page asks for four things by email. All four exist and are
-listed in the "Contact" section of the page, and all four are attached to the
-email sent to recruiting@nousresearch.com:
-
-1. Subject line — "Technical Support & Customer Success — open application"
-2. Resume / CV — https://javierponz.technoir.cloud/javier-ponz-prado-cv.pdf
-3. Cover letter — https://nousresearch.technoir.cloud/javier-ponz-prado-cover-letter.pdf
-4. Portfolio — https://github.com/ponzgpt and https://javierponz.technoir.cloud/
+An early-career route toward Forward Deployed Engineer at Nous. He does not
+claim the published role's five years of production software or solutions
+engineering. He brings customer-facing diagnosis and translation now, and is
+building the deployment and engineering depth deliberately.
 
 ## Background
 
-- Apple Retail, September 2014 – August 2024, Madrid.
-- Studying at Universidad Rey Juan Carlos via Racks University: Specialist in Artificial Intelligence, and Full Stack AI Developer. Both in progress, to December 2026.
-- Industrial Engineering (Electronics and Automation), Universidad Politécnica de Madrid, 80 ECTS completed, degree unfinished.
-- Founder of Machines Do It Better, an agent consultancy with no clients to date. Stated plainly on his CV and site, not on this page — this page is about the job, not the business.
+- Apple Retail Spain, September 2014 – August 2024: Specialist and Technical
+  Specialist (2014–2018), Genius (2018–2024), AppleCare Support Advisor
+  (remote, 2020), and two seven-month In-Store Experience Lead secondments
+  (2023, 2024).
+- Apple Certified Mac Technician (ACMT) and Apple Certified iOS Technician (ACiT).
+- Studying AI and Full Stack development at Universidad Rey Juan Carlos via
+  Racks Academy — in progress.
+- Based in Aberdeen, Scotland. Spanish native, working in English. Open to
+  remote work, travel and relocation. No notice period.
 
-## Tools he actually operates
+## Evidence, with authorship stated exactly
 
-Hermes Agent, Model Context Protocol (MCP), OpenRouter, llama.cpp, Ollama,
-LM Studio, Docker, Docker Swarm, Dokploy, Traefik, nginx, Linux (Arch, Fedora,
-Omarchy), GitHub Actions, Python, JavaScript, TypeScript, Astro, Swift, Claude
-Code. PC building and overclocking since adolescence.
+- [Memento Mori](https://memento.technoir.cloud/) — written and deployed by him.
+  Privacy-first web product; plain HTML/CSS/ES modules; Docker, Nginx and
+  Traefik; release checks. Source: https://github.com/ponzgpt/memento-mori
+- [Hermes PKM Toolkit](https://github.com/ponzgpt/hermes-pkm-toolkit) —
+  specified by him, written with an agent. MCP tools and agent skills for local
+  Markdown vaults, with path-traversal protection and tests.
+- [0TH Hermes](https://github.com/ponzgpt/0th-hermes) — specified by him,
+  written with an agent. An opinionated onboarding path for Hermes Agent.
+- Portfolio with per-project authorship labels:
+  https://javierponz.technoir.cloud/?skin=omarchy#projects
 
-## Currently learning (stated separately from what he operates)
+## Operates day to day
 
-vLLM, a self-hosted homelab on Proxmox (NAS beneath the hypervisor,
-virtualisation, basic networking), OSINT, and GrapheneOS. Kept separate from
-what he operates deliberately, on the CV and on his site.
+Hermes Agent (built by Nous Research; he uses it and builds tooling, skills and
+workflows around it), MCP, Docker, Traefik, nginx, Linux, GitHub Actions.
 
-## Note on affiliation
+## Currently learning — not professional experience
 
-Javier Ponz is not affiliated with, employed by or sponsored by Nous Research.
-This page is his own, published on his own domain, and deliberately echoes the
-typographic language of the Nous careers page as a considered homage. No Nous
-logo, wordmark or character artwork is reproduced on it. It is not an official
-Nous page and does not speak for Nous.
+Backend engineering, cloud and hybrid deployment, APIs and authentication,
+observability, networking, production agent infrastructure. A local-inference
+lab is being rebuilt; the rigs are currently offline, so no model is served
+from his hardware at present.
+
+## Contact
+
+nerion89@gmail.com · https://github.com/ponzgpt ·
+https://www.linkedin.com/in/javierponz · https://javierponz.technoir.cloud/javier-ponz-prado-cv.pdf
+
+## Affiliation
+
+Not affiliated with, employed by or endorsed by Nous Research. No Nous logo,
+wordmark, artwork or source code is reproduced.

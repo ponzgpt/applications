@@ -6,17 +6,19 @@ A single-page, personal application, published on my own domain at
 **Not affiliated with Nous Research.** No logo, no endorsement, no claim of
 any relationship. Their careers page is at <https://nousresearch.com/careers>.
 
-The visual language is a deliberate, respectful echo of Nous's own published
-site — white ground, cyan on white, dashed rules, serif small caps against bold
-sans — as a way of showing I read carefully. All words and content are mine.
+The visual language borrows rhythm and restraint from Nous's careers page —
+large editorial type, thin rules, monochrome — without copying its code, words
+or assets. All words and content are mine.
 
-The page is organised as why, how and record, and it is explicit about which
-repositories I wrote and which I specified and had an agent write. Getting that
-distinction wrong would be the only thing on here worth catching.
+The page runs person → work → proof → fit → gap → logistics, and it is explicit
+about which repositories I wrote and which I specified and had an agent write.
+Getting that distinction wrong would be the only thing on here worth catching.
 
-Static HTML, no build step. Deploys as nginx behind Traefik, same pattern as
-the rest of my sites.
+`content.mjs` holds the copy in EN/ES/ZH; `build.mjs` renders the three static
+pages; `check.mjs` fails on missing sections or obsolete claims. Deploys as nginx
+behind Traefik, same pattern as the rest of my sites.
 
 ```bash
+node build.mjs && node check.mjs && node build-cover-letter.mjs
 docker build -t nous-application . && docker run --rm -p 8080:80 nous-application
 ```

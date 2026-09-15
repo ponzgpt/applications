@@ -1,329 +1,281 @@
 <!doctype html>
-<html lang="en-US">
+<html lang="en-GB">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Javier Ponz — an open application to Nous Research</title>
-<meta name="description" content="An open application to Nous Research from Javier Ponz: technical support and customer-facing work on Hermes and open inference. Ten years at Apple Retail in diagnosis, support and team leadership." />
+<title>Javier Ponz — application to Nous Research</title>
+<meta name="description" content="Open application to Nous Research from Javier Ponz: ten years of Apple technical support, hands-on agent operations with Hermes Agent and MCP, and an honest early-career path toward Forward Deployed Engineer." />
 <link rel="canonical" href="https://nousresearch.technoir.cloud/" />
-<link rel="alternate" hreflang="en-US" href="https://nousresearch.technoir.cloud/" />
+<link rel="alternate" hreflang="en-GB" href="https://nousresearch.technoir.cloud/" />
 <link rel="alternate" hreflang="es-ES" href="https://nousresearch.technoir.cloud/es/" />
 <link rel="alternate" hreflang="zh-Hans" href="https://nousresearch.technoir.cloud/zh/" />
 <link rel="alternate" hreflang="x-default" href="https://nousresearch.technoir.cloud/" />
-<meta property="og:title" content="Javier Ponz — an open application to Nous Research" />
-<meta property="og:description" content="Technical support and customer-facing work on Hermes and open inference, from someone who spent ten years being the human between people and their machines." />
+<meta property="og:title" content="Javier Ponz — application to Nous Research" />
+<meta property="og:description" content="Ten years helping people make difficult technology work, now applied to open agents, tools and systems — an early-career path toward forward-deployed engineering." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://nousresearch.technoir.cloud/" />
-<meta property="og:locale" content="en_US" />
+<meta property="og:locale" content="en_GB" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500&display=swap" rel="stylesheet" />
 <style>
-  @font-face{
-    /* Same variable font Nous uses for headings, self-hosted nowhere near
-       reliably enough on Google Fonts, so pulled from its own npm package. */
-    font-family:"Geist Mono";
-    src:url("https://cdn.jsdelivr.net/npm/geist@1/dist/fonts/geist-mono/GeistMono-Variable.woff2") format("woff2");
-    font-weight:100 900;
-    font-style:normal;
-    font-display:swap;
-  }
-  @font-face{
-    /* Nous sets nav links and lead-in words in "mondwest mike," a commercial
-       display face we have no license to serve. Geist is the closest thing we
-       can legally ship — open source, and Nous already loads it themselves
-       (it's in their own document.fonts list, just not on these elements). */
-    font-family:"Geist";
-    src:url("https://cdn.jsdelivr.net/npm/geist@1/dist/fonts/geist-sans/Geist-Variable.woff2") format("woff2");
-    font-weight:100 900;
-    font-style:normal;
-    font-display:swap;
-  }
+  @font-face{font-family:"Geist Mono";src:url("https://cdn.jsdelivr.net/npm/geist@1/dist/fonts/geist-mono/GeistMono-Variable.woff2") format("woff2");font-weight:100 900;font-display:swap}
+  @font-face{font-family:"Geist";src:url("https://cdn.jsdelivr.net/npm/geist@1/dist/fonts/geist-sans/Geist-Variable.woff2") format("woff2");font-weight:100 900;font-display:swap}
   :root{
-    /* Sampled directly from the computed style of nousresearch.com/careers. */
-    --ink:#0171a9;
-    --paper:#ffffff;
-    --grey:#5c6d78;
-    --max:1100px;
+    --ink:#141414;--paper:#fafaf7;--grey:#5f5f5a;--hair:#d8d8d0;--max:1120px;
     --serif:"EB Garamond",Georgia,"Times New Roman",serif;
-    --sans:"Helvetica Neue",Helvetica,Arial,sans-serif;
-    --mono:"Courier Prime","Courier New",Courier,monospace;
-    --headmono:"Geist Mono","Courier Prime",monospace;
-    --headsans:"Geist","Helvetica Neue",sans-serif;
+    --sans:"Geist","Helvetica Neue",Helvetica,Arial,sans-serif;
+    --mono:"Geist Mono",ui-monospace,Menlo,Consolas,monospace;
   }
   *{box-sizing:border-box}
   html{background:var(--paper);color:var(--ink);-webkit-font-smoothing:antialiased}
-  /* their body copy computes to Helvetica Neue, weight 600, 16px/24px —
-     sampled directly, not approximated */
-  body{margin:0;font-family:var(--sans);font-weight:600;font-size:16px;line-height:1.5}
-  .shell{width:min(calc(100% - 48px),var(--max));margin:0 auto}
-  a{color:var(--ink)}
+  body{margin:0;background:var(--paper);font-family:var(--sans);font-size:17px;line-height:1.6}
+  .shell{width:min(calc(100% - 40px),var(--max));margin:0 auto}
+  a{color:inherit;text-decoration-thickness:1px;text-underline-offset:3px}
+  a:hover{text-decoration-thickness:2px}
+  a:focus-visible,summary:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+  p{margin:0 0 20px;max-width:66ch}
+  .mono,.label,nav a,.brand,.tag,.links,.status,.study,.kicker,.map-lead{
+    font-family:var(--mono);font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;font-weight:500}
 
-  /* static, like theirs: the header scrolls away with the page rather than
-     following the reader down it */
-  /* the dashed rule sits on .shell, not the full-bleed .navbar, so its width
-     matches every other dashed rule on the page (and the one under CAREERS
-     on nousresearch.com, which is also inset to content width, not edge to
-     edge) */
-  .navbar{position:relative;z-index:20;background:var(--paper)}
-  .navbar .shell{border-bottom:2px dashed var(--ink)}
-  nav{padding:30px 0 18px;text-align:center;display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap}
-  /* sampled from their real nav links: Geist, weight 500, 15px, uppercase,
-     no extra letter-spacing */
-  nav a{
-    font-family:var(--headsans);font-weight:500;font-size:15px;letter-spacing:normal;
-    text-transform:uppercase;text-decoration:none;margin:0 10px;display:inline-block;line-height:1.9;
-  }
-  nav a:hover{text-decoration:underline;text-underline-offset:4px}
-  nav a.home{text-decoration:underline;text-underline-offset:4px}
+  .top{border-bottom:1px solid var(--ink)}
+  .top .shell{display:flex;align-items:center;justify-content:space-between;gap:12px 24px;padding:16px 0;flex-wrap:wrap}
+  .brand{text-decoration:none;font-weight:600}
+  nav{display:flex;align-items:center;gap:6px 18px;flex-wrap:wrap}
+  nav a{text-decoration:none;color:var(--grey)}
+  nav a:hover{color:var(--ink);text-decoration:underline}
 
-
-  /* language picker — an icon button that opens a popover of language codes,
-     with a caret pointing back at the button. Still plain links inside a
-     <details>, so it works with JavaScript off and a crawler can follow it to
-     the translated page. */
-  .lang{position:relative;margin-left:12px;--pop:#fbfbfc;--hair:rgba(1,113,169,.16)}
-  .lang summary{
-    list-style:none;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;
-    width:38px;height:38px;border-radius:10px;color:var(--ink);
-    background:var(--paper);border:1px solid var(--hair);box-shadow:0 2px 8px rgba(0,0,0,.07);
-  }
+  /* plain links inside <details>: works with JavaScript off, crawlable */
+  .lang{position:relative}
+  .lang summary{list-style:none;cursor:pointer;font-family:var(--mono);font-size:12.5px;letter-spacing:.06em;
+    border:1px solid var(--ink);padding:2px 8px;border-radius:2px}
   .lang summary::-webkit-details-marker{display:none}
-  .lang summary svg{display:block;width:20px;height:20px}
-  .lang summary:hover,.lang[open] summary{background:var(--ink);color:var(--paper);border-color:var(--ink)}
-  .langmenu{
-    position:absolute;left:50%;transform:translateX(-50%);top:calc(100% + 11px);z-index:30;
-    display:flex;align-items:center;gap:2px;padding:5px;white-space:nowrap;
-    background:var(--pop);border:1px solid var(--hair);border-radius:14px;
-    box-shadow:0 6px 18px rgba(0,0,0,.10);
-  }
-  .langmenu::before{
-    content:"";position:absolute;top:-6px;left:50%;width:10px;height:10px;
-    transform:translateX(-50%) rotate(45deg);background:var(--pop);
-    border-left:1px solid var(--hair);border-top:1px solid var(--hair);border-radius:2px;
-  }
-  .langmenu a{
-    display:block;margin:0;padding:7px 12px;border-radius:9px;line-height:1.2;
-    font-family:var(--sans);font-weight:700;font-size:14px;letter-spacing:.01em;
-    text-transform:none;text-decoration:none;color:var(--grey);
-  }
-  .langmenu a:hover{color:var(--ink);text-decoration:none}
-  .langmenu a[aria-current="true"]{background:var(--paper);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+  .lang[open] summary,.lang summary:hover{background:var(--ink);color:var(--paper)}
+  .langmenu{position:absolute;right:0;top:calc(100% + 6px);z-index:10;display:flex;flex-direction:column;
+    background:var(--paper);border:1px solid var(--ink);min-width:9em}
+  .langmenu a{padding:6px 10px;text-decoration:none;font-family:var(--sans);font-size:14px}
+  .langmenu a:hover,.langmenu a[aria-current="true"]{background:var(--ink);color:var(--paper)}
 
-  .rule{border:0;border-top:2px dashed var(--ink);margin:0;opacity:.9}
-
-  .block{
-    display:inline-block;background:var(--ink);color:var(--paper);
-    font-family:var(--headmono);font-weight:600;font-size:clamp(24px,2.4vw,32px);
-    letter-spacing:-.05em;padding:0;margin:0 0 62px;
-  }
-
-  section{padding:56px 0 62px;scroll-margin-top:16px}
-  #application{padding-top:52px}
-  /* two cells on desktop; on mobile the media query collapses to one column and
-     the portrait drops below the mission paragraph, like the portrait on
-     nousresearch.com/careers */
-  .cols{display:grid;grid-template-columns:1fr 200px;gap:48px;align-items:start}
-
-  /* their lead-in words (OUR MISSION, NOUS RESEARCH) render in "mondwest
-     mike" at 28.8px/16px = 1.8em, weight 600, -0.5px letter-spacing — same
-     Geist substitution as the nav, same negative tracking */
-  .lead-in{
-    font-family:var(--headsans);font-weight:600;font-size:1.8em;
-    letter-spacing:-.02em;text-transform:uppercase;line-height:1;
-  }
-  .lead-in a{text-decoration:none}
-  .lead-in a:hover{text-decoration:underline;text-underline-offset:4px}
-
-  p{margin:0 0 22px;max-width:90ch}
-  .u{text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:2px;text-decoration-color:rgba(0,113,169,.42);transition:text-decoration-color .15s,background-color .15s}
-  .u:hover{text-decoration-color:var(--ink);background:rgba(0,113,169,.07)}
-
-  ul{margin:0 0 22px;padding-left:22px;max-width:90ch}
-  li{margin-bottom:14px}
-
-  /* their section heads (OPEN ROLES) are Geist Mono, weight 600, 28.8px,
-     -0.5px letter-spacing — same values .block already uses for APPLICATION */
-  .mono-head{
-    font-family:var(--headmono);font-weight:600;font-size:clamp(22px,2.4vw,28.8px);
-    letter-spacing:-.02em;text-transform:uppercase;margin:0 0 30px;
-  }
-  .mono-head .hw{text-decoration:underline;text-underline-offset:6px;text-decoration-thickness:2px}
-  .mono-head .sub{font-family:var(--sans);font-weight:600;font-size:.5em;letter-spacing:0;text-transform:none;color:var(--grey);margin-left:14px}
-
-  /* floating, unframed — matches the portrait on nousresearch.com/careers.
-     A mild top-anchored crop (their own portrait is close to square) keeps
-     the block from towering over the single mission paragraph beside it —
-     full face and hair stay in frame, only some jacket at the bottom is lost. */
-  .portrait{border-radius:6px;overflow:hidden;box-shadow:0 4px 8px rgba(0,0,0,.05);aspect-ratio:3/3.6}
+  .hero{display:grid;grid-template-columns:minmax(0,1fr) 220px;gap:56px;padding:72px 0 64px;align-items:start}
+  .kicker{display:inline-block;border:1px solid var(--ink);padding:3px 8px;margin:0 0 28px;letter-spacing:.14em}
+  h1{font-family:var(--serif);font-weight:500;font-size:clamp(52px,9vw,112px);line-height:.92;letter-spacing:-.02em;margin:0 0 20px}
+  .tagline{font-family:var(--serif);font-size:clamp(22px,2.6vw,30px);line-height:1.25;color:var(--grey);max-width:30ch;margin:0 0 44px}
+  .opening p{font-size:clamp(18px,1.7vw,20px);max-width:58ch}
+  .opening p:first-child{font-family:var(--serif);font-size:clamp(26px,3vw,34px);line-height:1.2;max-width:26ch}
+  .status{color:var(--grey);border-top:1px solid var(--hair);padding-top:14px;margin:32px 0 0;max-width:none;line-height:1.7}
+  .portrait{aspect-ratio:3/3.8;overflow:hidden;filter:grayscale(1);margin-top:8px}
   .portrait img{display:block;width:100%;height:100%;object-fit:cover;object-position:top center}
 
-  /* condensed "what I want" list, in the same badge + title + one-liner shape
-     as the "OPEN ROLES" list on nousresearch.com/careers, values sampled from
-     its .badge/.role-title/.role-description */
-  .rolelist{margin:0 0 26px;max-width:78ch}
-  .role-item{padding:12.8px 0;border-bottom:1px dotted var(--ink)}
-  .role-title{display:flex;align-items:center;gap:8px;font-weight:600;font-size:17.6px;margin:0}
-  .badge{display:inline-block;background:#007bff;color:#fff;padding:1.6px 4.8px;border-radius:1px;font-weight:600;font-size:9.6px;letter-spacing:.03em;text-transform:uppercase;white-space:nowrap}
-  /* body copy dropped to 600 globally, but their .role-description is 700 —
-     stated explicitly here rather than inherited */
-  .role-body{margin:6px 0 0;font-weight:700;font-size:15.2px;line-height:1.5}
+  .part{display:grid;grid-template-columns:200px minmax(0,1fr);gap:40px;padding:64px 0;border-top:1px solid var(--ink)}
+  .label{color:var(--grey);margin:10px 0 0}
+  h2{font-family:var(--serif);font-weight:500;font-size:clamp(36px,4.6vw,58px);line-height:1;letter-spacing:-.015em;margin:0 0 32px}
+  h3{font-size:18px;font-weight:600;margin:0 0 8px}
 
-  /* mirrors their "HOW TO APPLY" list: square markers, 16px, same ink */
-  .applylist{list-style:square;padding-left:16px;margin:16px 0 26px;max-width:78ch}
-  .applylist li{margin:0 0 8px;font-size:16px;font-weight:600;line-height:1.5;overflow-wrap:anywhere}
+  .cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px;margin:0 0 36px}
+  .card{border-top:1px solid var(--ink);padding-top:16px}
+  .card p{font-size:16px;margin:0}
+  .aside{color:var(--grey);border-left:1px solid var(--ink);padding-left:16px}
 
-  /* matches the "if nothing fits" callout on nousresearch.com/careers exactly */
-  /* no max-width — their real .custom-footnote rule doesn't cap it either,
-     it just fills the content column like everything else on the page */
-  .footnote{
-    display:flex;align-items:flex-start;
-    background:var(--ink);color:var(--paper);border-left:5px solid #00547e;border-radius:1px;
-    box-shadow:0 2px 8px rgba(0,0,0,.08);padding:.8rem 1.8rem;
-    font-family:var(--sans);font-weight:500;font-size:15.2px;line-height:1.6;letter-spacing:.02em;
-  }
-  .footnote .info-icon{width:20px;height:20px;min-width:20px;margin:3px 12px 0 0;flex-shrink:0}
+  .projects{list-style:none;margin:0 0 28px;padding:0;border-bottom:1px solid var(--hair)}
+  .project{display:grid;grid-template-columns:230px minmax(0,1fr);gap:6px 32px;padding:24px 0;border-top:1px solid var(--hair)}
+  .project h3{font-family:var(--serif);font-weight:500;font-size:30px;line-height:1.05;margin:0 0 8px}
+  .tag{color:var(--grey);font-size:11.5px;line-height:1.5}
+  .project p{margin:0}
+  .links{display:flex;flex-wrap:wrap;gap:4px 18px;margin:12px 0 0}
 
-  #contact{padding-bottom:80px}
+  .map-lead{color:var(--grey);margin:36px 0 8px}
+  .map{display:grid;grid-template-columns:minmax(0,15em) minmax(0,1fr);margin:0;border-top:1px solid var(--hair)}
+  .map dt,.map dd{margin:0;padding:10px 0;border-bottom:1px solid var(--hair)}
+  .map dt{font-weight:600;padding-right:20px}
+  .study{border:1px solid var(--ink);display:inline-block;padding:6px 10px;margin:8px 0 20px;line-height:1.6}
 
-  @media (max-width:900px){
-    .cols{grid-template-columns:1fr;gap:36px}
-    .portrait{max-width:240px}
-    nav{padding:16px 0 12px}
-    nav a{margin:0 7px;font-size:14px;line-height:1.9}
-    section{padding:40px 0 44px}
-    #application{padding-top:34px}
-    .mono-head .sub{display:block;margin:8px 0 0}
-    .footnote{padding:.7rem 1.1rem}
+  .contact{border-top:1px solid var(--ink)}
+  .contact h2{font-size:clamp(44px,6vw,76px)}
+  .contact dd a{overflow-wrap:anywhere}
+
+  footer{border-top:1px solid var(--ink);padding:28px 0 48px;color:var(--grey);font-size:14px}
+  footer .shell{display:flex;justify-content:space-between;gap:16px 40px;flex-wrap:wrap}
+  footer p{margin:0;max-width:60ch}
+  footer .links{margin:0}
+
+  @media (max-width:860px){
+    body{font-size:16px}
+    .hero{grid-template-columns:1fr;gap:32px;padding:44px 0 48px}
+    .portrait{max-width:200px}
+    .part{grid-template-columns:1fr;gap:10px;padding:48px 0}
+    h2{margin-bottom:24px}
+    .cards,.project,.map{grid-template-columns:1fr}
+    .cards{gap:24px}
+    .map dt{border-bottom:0;padding-bottom:0}
+    .map dd{padding-top:2px}
   }
 </style>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Javier Ponz Prado","jobTitle":"Technical support and agent operations","description":"An open application to Nous Research from Javier Ponz: technical support and customer-facing work on Hermes and open inference. Ten years at Apple Retail in diagnosis, support and team leadership.","email":"nerion89@gmail.com","address":{"@type":"PostalAddress","addressLocality":"Aberdeen","addressCountry":"GB"},"url":"https://javierponz.technoir.cloud/","sameAs":["https://github.com/ponzgpt","https://www.linkedin.com/in/javierponz"],"seeks":{"@type":"Demand","name":"Technical support engineering / customer success at Nous Research"},"knowsAbout":["Hermes Agent","Model Context Protocol","agent workflows","technical support","customer success","technical troubleshooting","llama.cpp","local inference","open weights","Omarchy","Arch Linux","Fedora","GrapheneOS","OSINT","Docker","Traefik","nginx","Linux","VPS administration","Python","JavaScript","TypeScript","Astro","Swift","CI/CD","PC hardware","overclocking"],"knowsLanguage":["es","en"],"inLanguage":"en-US"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Javier Ponz Prado","jobTitle":"Technical support and agent operations","description":"Open application to Nous Research from Javier Ponz: ten years of Apple technical support, hands-on agent operations with Hermes Agent and MCP, and an honest early-career path toward Forward Deployed Engineer.","email":"nerion89@gmail.com","address":{"@type":"PostalAddress","addressLocality":"Aberdeen","addressCountry":"GB"},"url":"https://javierponz.technoir.cloud/?skin=omarchy","sameAs":["https://github.com/ponzgpt","https://www.linkedin.com/in/javierponz"],"seeks":{"@type":"Demand","name":"Early-career path toward Forward Deployed Engineer at Nous Research"},"knowsAbout":["technical support","technical troubleshooting","Hermes Agent","Model Context Protocol","agent workflows","Docker","Traefik","nginx","Linux","JavaScript"],"knowsLanguage":["es","en"],"inLanguage":"en-GB"}</script>
 </head>
 <body>
-<div class="navbar">
+<header class="top">
   <div class="shell">
-    <nav>
-      <a class="home" href="https://javierponz.technoir.cloud/">Home</a>
-      <a href="#who">Who</a>
-      <a href="#what">What</a>
-      <a href="#built">Built</a>
-      <a href="#why">Why</a>
-      <a href="#where">Where</a>
-      <a href="#when">When</a>
-      <details class="lang">
-        <summary aria-label="Language" title="Language"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z" /></svg></summary>
-        <div class="langmenu">
-          <a href="/" hreflang="en-US" lang="en-US" title="English" aria-current="true">EN</a>
-          <a href="/es/" hreflang="es-ES" lang="es-ES" title="Español">ES</a>
-          <a href="/zh/" hreflang="zh-Hans" lang="zh-Hans" title="简体中文">中文</a>
-        </div>
-      </details>
+    <a class="brand" href="https://javierponz.technoir.cloud/?skin=omarchy">Javier Ponz · Portfolio ↗</a>
+    <nav aria-label="Sections">
+        <a href="#person">01 Person</a>
+        <a href="#work">02 Work</a>
+        <a href="#proof">03 Proof</a>
+        <a href="#fit">04 Fit</a>
+        <a href="#gap">05 Gap</a>
+        <a href="#logistics">06 Logistics</a>
+        <details class="lang">
+          <summary aria-label="Language">EN</summary>
+          <div class="langmenu">
+            <a href="/" hreflang="en-GB" lang="en-GB" aria-current="true">English</a>
+            <a href="/es/" hreflang="es-ES" lang="es-ES">Español</a>
+            <a href="/zh/" hreflang="zh-Hans" lang="zh-Hans">简体中文</a>
+          </div>
+        </details>
     </nav>
   </div>
-</div>
+</header>
 
-<div class="shell">
-
-  <section id="application">
-    <h1 class="block">APPLICATION</h1>
-    <div class="cols">
-      <p><span class="lead-in">My mission</span> is the same one on your careers page, read from the support side instead of the research side: powerful AI only reaches the many if somebody is willing to sit with the ones who do not yet know how to use it. Open weights solve the access problem in theory. They do not solve it in practice, because a model sitting on a hard drive is not the same thing as a model a person can actually put to work — that gap only closes with explanation, patience, and somebody willing to stay on the problem until it runs. I spent ten years being exactly that person for people and their machines, long before I had a name for it. That is not a coincidence of phrasing. It is the reason I am writing this page instead of a different one.</p>
-      <div class="portrait">
-        <img src="/javier-sketch.jpg" alt="Pencil-sketch portrait of Javier Ponz" width="720" height="960" />
+<main class="shell">
+  <section class="hero" id="application">
+    <div>
+      <p class="kicker">Application</p>
+      <h1>Javier Ponz</h1>
+      <p class="tagline">Technical support, agent operations and a forward-deployed path</p>
+      <div class="opening">
+      <p>I have spent ten years helping people make difficult technology work.</p>
+      <p>At Apple Retail, that meant diagnosing the problem behind the symptom, translating between technical systems and human needs, and staying with the case until the person in front of me had a working next step.</p>
+      <p>I am now applying that same discipline to open agents, tools and systems that people can actually use. I am building toward forward-deployed engineering at Nous — honestly, from the support side first.</p>
       </div>
+      <p class="status">Aberdeen, Scotland · open to remote work, travel and relocation · available immediately</p>
     </div>
-  </section>
-  <hr class="rule" />
-
-  <section id="who">
-    <h2 class="mono-head"><span class="hw">Who</span><span class="sub">— am I?</span></h2>
-    <p><span class="lead-in">Hi! I'm <a href="https://javierponz.technoir.cloud/">Javier Ponz</a></span>, an ex-Apple Genius from Madrid, Spain — now learning and building AI from Aberdeen, Scotland. Your careers page says that if nothing listed fits, send a description of what I would like to do here. This page is that description.</p>
-
-    <p>Twice within those ten years, seven months at a time, I stepped away from the bench to run store floor operations — planning, resourcing, events, the situations that fit no procedure. Both secondments left me with the same conviction: <span class="u">leading is serving</span>. The job was never being the most capable person in the room. It was making the room work.</p>
-  </section>
-  <hr class="rule" />
-
-  <section id="what">
-    <h2 class="mono-head"><span class="hw">What</span><span class="sub">— what I would love to do at Nous</span></h2>
-    <div class="rolelist">
-
-      <div class="role-item">
-        <div class="role-title"><span class="badge">Proven</span>Technical problem-solving</div>
-        <p class="role-body">Ten years diagnosing problems that rarely arrived in clean technical form — translating between what the engineer means, what the sale promised, and what is really on the screen. That translation work is what I have actually proven, over and over, not any single stack.</p>
-      </div>
-
-      <div class="role-item">
-        <div class="role-title"><span class="badge">Moonshot</span>Forward-deployed engineering</div>
-        <p class="role-body">The role that has my attention right now. I am two years into rebuilding my technical foundation around this stack, and I will not pretend that is the same as years spent shipping production software — it is not. But the gap is a known distance, not a wall, and I am closing it deliberately.</p>
-      </div>
-
-      <div class="role-item">
-        <div class="role-title"><span class="badge">The bridge</span>What closes the gap between the two</div>
-        <p class="role-body">Carrying real support load, writing the fix down, staying with a problem until it runs. That is how technical problem-solving turns into FDE readiness, not a separate track from it.</p>
-      </div>
-    </div>
-  </section>
-  <hr class="rule" />
-
-  <section id="built">
-    <h2 class="mono-head"><span class="hw">Built</span><span class="sub">— the evidence, briefly</span></h2>
-    <p>Everything above is easier to believe with something to point at. My <a class="u" href="https://javierponz.technoir.cloud/workbench">Workbench</a> has the rest: Memento Mori running in production on my own infrastructure, the MCP tooling I have specified and shipped, and what I run day to day. I would rather you look than take my word for it.</p>
-  </section>
-  <hr class="rule" />
-
-  <section id="why">
-    <h2 class="mono-head"><span class="hw">Why</span><span class="sub">— why Nous, and why not the others</span></h2>
-    <p><span class="lead-in">An operating system</span> malleable enough for an agent to inhabit strikes me as a more interesting problem than a larger model, and probably a nearer one. Most personal computers are appliances: sealed, arranged by decisions somebody else made years ago. Agents change what that costs — an agent's usefulness is bounded by the surface it can reach, and on a sealed appliance that surface is conversation and little else.</p>
-
-    <p>Hermes and MCP decompose capability into things you can inspect: a skill is a Markdown file, a tool is a server you can read. Omarchy approaches from the system side, treating the desktop as configuration its owner is expected to edit. Between them sits the machine I want to use — one that is <span class="u">proactive and shapeable</span> by the person living in it, which is the same idea your mission statement opens with, read from the operating-system layer instead of the model layer.</p>
-
-    <p><span class="lead-in">I did not arrive here from ideology.</span> I grew up on Windows, spent a decade very good at a platform I did not own, and I am now deliberately unwinding that: Arch, Fedora and Omarchy, off Google services, learning OSINT, GrapheneOS next. I watched those platforms get steadily worse for the people living inside them, closely enough to see the decisions being made. <span class="u">Whoever holds the primitives sets the ceiling</span> on how far a machine may help you, and open weights are what keep that ceiling in the owner's hands.</p>
-
-    <p>That is the practical reason I want to work at Nous rather than somewhere that would pay me more to do the opposite. If open inference is going to be a real option for ordinary people, somebody has to do the unglamorous work of <span class="u">making it adoptable</span>. <span class="lead-in">So, back to the first paragraph.</span> Powerful AI in the hands of the many is a sentence that eventually has to survive contact with one real person's machine, on a bad day, with something already due. Somebody has to be there when it does. That is the job I am asking for.</p>
-  </section>
-  <hr class="rule" />
-
-  <section id="where">
-    <h2 class="mono-head"><span class="hw">Where</span><span class="sub">— based, and how far I will go</span></h2>
-    <p><span class="lead-in">Aberdeen, Scotland</span> — by way of Madrid. That is where the machines described on this page physically sit.</p>
-
-    <p>UK-based, remote-ready, and happy to travel to meet the team, conferences or customers wherever Nous needs somebody <span class="u">in the room</span> rather than on a call.</p>
-  </section>
-  <hr class="rule" />
-
-  <section id="when">
-    <h2 class="mono-head"><span class="hw">When</span><span class="sub">— availability</span></h2>
-    <p><span class="lead-in">I can start immediately.</span> There is no notice period to work through and no employer to leave gracefully. The consultancy is mine, which makes it the thing I would be setting aside rather than the thing I would be leaving. If the fit is right, the honest answer to when is <span class="u">whenever you want me</span>.</p>
-
-    <p><span class="lead-in">I know how fortunate that makes me.</span> Running my own consultancy these last two years has meant I could spend real time studying and experimenting instead of only shipping billable work — most of what is on this page came out of hours nobody was paying me for. I would bring Nous that same appetite, and give the work whatever time it actually needs.</p>
-
-    <p>I work from UK time: a full working day of overlap with Europe, and most of an afternoon with the American east coast. Ten years of retail and support ran on shifts rather than office hours, so <span class="u">moving my day</span> to meet a team spread across time zones is a scheduling question and not an objection.</p>
-
-    <p><span class="lead-in">I would also weigh every path Nous offers for growth</span> — relocation included — if the fit and the time zones line up. That is not a demand. It is an openness I would rather state now than discover later.</p>
-  </section>
-  <hr class="rule" />
-
-  <section id="contact">
-    <h2 class="mono-head"><span class="hw">Contact</span></h2>
-    <p>The most useful reply would tell me which of these directions is worth pursuing and what stands between me and being obviously qualified for it. I would rather close a specific gap than guess at one.</p>
-
-    <p>Your careers page offers long months of complete focus and constant danger, with honor and glory in the event of success. I have read that page more than once. I would take the trade.</p>
-
-    <p>None of this needs to be settled on the page. Give me something real to look at, and you will see how I actually work faster than any paragraph here could show you.</p>
-    <p>This application was sent from <a class="u" href="mailto:nerion89@gmail.com">nerion89@gmail.com</a>, with the following already attached:</p>
-    <ul class="applylist">
-      <li>In the subject: Technical Support &amp; Customer Success — open application</li>
-      <li><a class="u" href="https://javierponz.technoir.cloud/javier-ponz-prado-cv.pdf">Resume/CV</a></li>
-      <li><a class="u" href="/javier-ponz-prado-cover-letter.pdf">Cover Letter</a></li>
-      <li>A <a class="u" href="https://javierponz.technoir.cloud/workbench">portfolio</a> showcasing my work · <a class="u" href="https://github.com/ponzgpt">github.com/ponzgpt</a> · <a class="u" href="https://www.linkedin.com/in/javierponz">LinkedIn</a></li>
-    </ul>
-    <div class="footnote">
-      <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg>
-      <span>Life before death. Strength before weakness. Journey before destination.</span>
+    <div class="portrait">
+      <img src="/javier-sketch.jpg" alt="Pencil-sketch portrait of Javier Ponz" width="720" height="960" />
     </div>
   </section>
 
-</div>
+  <section class="part" id="person" aria-labelledby="person-h">
+    <p class="label">01 / The person</p>
+    <div>
+      <h2 id="person-h">Who I am</h2>
+      <p>I am <a href="https://javierponz.technoir.cloud/?skin=omarchy">Javier Ponz</a>: an ex-Apple Genius from Madrid, now learning and building AI from Aberdeen.</p>
+      <p>Between 2014 and 2024 I worked across Apple Retail Spain as a Specialist, a Technical Specialist and, for six and a half years, a Genius, with a spell as a remote AppleCare Support Advisor during COVID. Most of that time was hands-on diagnosis: difficult cases, incomplete information and people with very different levels of technical confidence.</p>
+      <p>Twice I stepped away from the bench for a seven-month In-Store Experience Lead secondment. Planning, resourcing, events and the situations that fit no procedure taught me the principle I still use: leading is serving. The job is not to be the cleverest person in the room. It is to make the room work.</p>
+    </div>
+  </section>
 
+  <section class="part" id="work" aria-labelledby="work-h">
+    <p class="label">02 / The work</p>
+    <div>
+      <h2 id="work-h">What I bring</h2>
+      <div class="cards">
+        <div class="card"><h3>Technical diagnosis</h3><p>Find the fault, separate symptom from cause, write down what has been checked, and keep going until the problem is useful again.</p></div>
+        <div class="card"><h3>Translation and adoption</h3><p>Explain the system in terms the person can act on. Technical work is not finished when the engineer understands it; it is finished when the other person can use it.</p></div>
+        <div class="card"><h3>Agent operations</h3><p>I work hands-on with <a href="https://hermes-agent.nousresearch.com/">Hermes Agent</a>, MCP, skills, workflows, Docker and small tools. I give agents explicit context and permissions, let them do the work, and verify what comes back.</p></div>
+      </div>
+      <p class="aside">I am not presenting this as five years of production software engineering. It is a deliberate engineering transition built on ten years of technical support, operating discipline and customer-facing problem solving.</p>
+    </div>
+  </section>
+
+  <section class="part" id="proof" aria-labelledby="proof-h">
+    <p class="label">03 / The proof</p>
+    <div>
+      <h2 id="proof-h">Built and shipped</h2>
+      <p>The fastest way to understand how I work is to inspect the work.</p>
+      <ul class="projects">
+        <li class="project">
+          <div><h3>Memento Mori</h3><p class="tag">Written and deployed by me</p></div>
+          <div>
+            <p>A small web product shipped to its own domain. Privacy-first by design — no accounts, no analytics — built in plain HTML, CSS and ES modules, and deployed with Docker, Nginx and Traefik behind release checks. The point was never to make the app look bigger than it is. It was to take a bounded idea all the way to a verified deployment.</p>
+            <p class="links"><a href="https://memento.technoir.cloud/">Live site ↗</a> <a href="https://github.com/ponzgpt/memento-mori">Source ↗</a></p>
+          </div>
+        </li>
+        <li class="project">
+          <div><h3>Hermes PKM Toolkit</h3><p class="tag">Specified by me · written with an agent</p></div>
+          <div>
+            <p>MCP tools and agent skills for working safely with local Markdown vaults. The filesystem layer has path-traversal protection and tests, because an agent with access to files needs a boundary it can explain.</p>
+            <p class="links"><a href="https://github.com/ponzgpt/hermes-pkm-toolkit">Source ↗</a></p>
+          </div>
+        </li>
+        <li class="project">
+          <div><h3>0TH Hermes</h3><p class="tag">Specified by me · written with an agent</p></div>
+          <div>
+            <p>An opinionated onboarding path for Hermes Agent. It cuts the first hour of confusion by choosing a next step, reading the machine and making the setup problem concrete.</p>
+            <p class="links"><a href="https://github.com/ponzgpt/0th-hermes">Source ↗</a></p>
+          </div>
+        </li>
+      </ul>
+      <p class="aside">The <a href="https://javierponz.technoir.cloud/?skin=omarchy#projects">portfolio</a> labels what I specified, wrote, deployed or built with an agent. I would rather show the boundary than blur it.</p>
+    </div>
+  </section>
+
+  <section class="part" id="fit" aria-labelledby="fit-h">
+    <p class="label">04 / The fit</p>
+    <div>
+      <h2 id="fit-h">Why Nous</h2>
+      <p>Nous is working on the part of AI I want to help make practical: open intelligence that does not stay locked behind a closed product surface.</p>
+      <p>Hermes and MCP make capability inspectable. A skill can be a Markdown file. A tool can be a server someone can read. That matters because the person using a system should be able to understand, shape and repair more of it.</p>
+      <p>The FDE role sits where my background is strongest and where my engineering depth is still growing: between a powerful system, a messy environment and the person who needs the system to work. I bring the diagnosis, translation, persistence and customer contact now. I am building the deeper deployment and engineering layer deliberately.</p>
+      <p class="map-lead">Against the published role</p>
+      <dl class="map">
+        <dt>Customer conversations</dt><dd>Ten years of technical support and consultative service</dd>
+        <dt>Ambiguous failures</dt><dd>Genius diagnosis under pressure</dd>
+        <dt>Implementation discipline</dt><dd>Documented checks, release gates and bounded deployments</dd>
+        <dt>Agent systems</dt><dd>Hermes, MCP, skills, workflows and daily operation</dd>
+        <dt>Engineering depth</dt><dd>Being built through AI and Full Stack study and shipped projects</dd>
+      </dl>
+    </div>
+  </section>
+
+  <section class="part" id="gap" aria-labelledby="gap-h">
+    <p class="label">05 / The gap</p>
+    <div>
+      <h2 id="gap-h">Where I am still learning</h2>
+      <p>The gap is specific, and I would rather name it once.</p>
+      <p>I am still building depth in backend engineering, cloud and hybrid deployment, APIs and authentication, observability, networking and the infrastructure around production agents. I have not spent five years shipping enterprise software, and I will not write as if I have.</p>
+      <p>What I do have is a decade of hands-on technical support, a habit of finding the fault instead of performing confidence, and the willingness to learn in the environment where the system has to work. I am asking for the chance to close the gap in the direction of Forward Deployed Engineer — not asking you to pretend it is already closed.</p>
+      <p class="study">Studying · AI and Full Stack development · Universidad Rey Juan Carlos via Racks Academy · in progress</p>
+      <p>The wider learning log is on the <a href="https://javierponz.technoir.cloud/?skin=omarchy">portfolio</a>.</p>
+    </div>
+  </section>
+
+  <section class="part" id="logistics" aria-labelledby="logistics-h">
+    <p class="label">06 / The logistics</p>
+    <div>
+      <h2 id="logistics-h">Based, available, reachable</h2>
+      <p>I am based in Aberdeen, Scotland, work comfortably across UK and European time zones, can travel when being in the room matters, and would consider relocation for the right fit. I have no notice period and can start immediately.</p>
+    </div>
+  </section>
+
+  <section class="part contact" id="contact" aria-labelledby="contact-h">
+    <p class="label">Contact</p>
+    <div>
+      <h2 id="contact-h">The next step</h2>
+      <p>If the support foundation and the engineering trajectory look useful, I would like to talk about the gap between them.</p>
+      <p>Tell me what would make me obviously useful to Nous in the first 90 days. I would rather close a specific gap than guess at one.</p>
+      <dl class="map">
+        <dt>Email</dt><dd><a href="mailto:nerion89@gmail.com">nerion89@gmail.com</a></dd>
+        <dt>CV</dt><dd><a href="https://javierponz.technoir.cloud/javier-ponz-prado-cv.pdf">javier-ponz-prado-cv.pdf</a></dd>
+        <dt>Portfolio</dt><dd><a href="https://javierponz.technoir.cloud/?skin=omarchy">javierponz.technoir.cloud</a></dd>
+        <dt>Projects</dt><dd><a href="https://javierponz.technoir.cloud/?skin=omarchy#projects">javierponz.technoir.cloud/#projects</a></dd>
+        <dt>GitHub</dt><dd><a href="https://github.com/ponzgpt">github.com/ponzgpt</a></dd>
+        <dt>LinkedIn</dt><dd><a href="https://www.linkedin.com/in/javierponz">linkedin.com/in/javierponz</a></dd>
+      </dl>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="shell">
+    <p>A personal page on my own domain. Not affiliated with or endorsed by Nous Research. Hermes Agent is built by Nous Research; I use it and build around it.</p>
+    <p class="links">
+      <a href="https://javierponz.technoir.cloud/?skin=omarchy">Portfolio ↗</a>
+      <a href="https://github.com/ponzgpt">GitHub ↗</a>
+      <a href="https://www.linkedin.com/in/javierponz">LinkedIn ↗</a>
+      <a href="https://hermes-agent.nousresearch.com/">Hermes Agent ↗</a>
+      <a href="https://nousresearch.com/careers/">Nous careers ↗</a>
+      <a href="/llms.txt">llms.txt</a>
+    </p>
+  </div>
+</footer>
 </body>
 </html>

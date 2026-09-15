@@ -11,243 +11,187 @@
  * an ATS filter or a Hermes agent before it is a person, and a translation
  * applied by JavaScript is invisible to both.
  *
- *   node build.mjs
+ *   node build.mjs && node check.mjs
  */
 
 import { writeFileSync, mkdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { langs, content } from './content.mjs';
+import { langs, links, content } from './content.mjs';
 
 const root = dirname(fileURLToPath(import.meta.url));
 const SITE = 'https://nousresearch.technoir.cloud';
 
+// Editorial and monochrome: large serif heads, mono section labels, thin rules.
+// The relationship to nousresearch.com is rhythm and restraint, not borrowed CSS.
 const styles = `
-  @font-face{
-    /* Same variable font Nous uses for headings, self-hosted nowhere near
-       reliably enough on Google Fonts, so pulled from its own npm package. */
-    font-family:"Geist Mono";
-    src:url("https://cdn.jsdelivr.net/npm/geist@1/dist/fonts/geist-mono/GeistMono-Variable.woff2") format("woff2");
-    font-weight:100 900;
-    font-style:normal;
-    font-display:swap;
-  }
-  @font-face{
-    /* Nous sets nav links and lead-in words in "mondwest mike," a commercial
-       display face we have no license to serve. Geist is the closest thing we
-       can legally ship — open source, and Nous already loads it themselves
-       (it's in their own document.fonts list, just not on these elements). */
-    font-family:"Geist";
-    src:url("https://cdn.jsdelivr.net/npm/geist@1/dist/fonts/geist-sans/Geist-Variable.woff2") format("woff2");
-    font-weight:100 900;
-    font-style:normal;
-    font-display:swap;
-  }
+  @font-face{font-family:"Geist Mono";src:url("https://cdn.jsdelivr.net/npm/geist@1/dist/fonts/geist-mono/GeistMono-Variable.woff2") format("woff2");font-weight:100 900;font-display:swap}
+  @font-face{font-family:"Geist";src:url("https://cdn.jsdelivr.net/npm/geist@1/dist/fonts/geist-sans/Geist-Variable.woff2") format("woff2");font-weight:100 900;font-display:swap}
   :root{
-    /* Sampled directly from the computed style of nousresearch.com/careers. */
-    --ink:#0171a9;
-    --paper:#ffffff;
-    --grey:#5c6d78;
-    --max:1100px;
+    --ink:#141414;--paper:#fafaf7;--grey:#5f5f5a;--hair:#d8d8d0;--max:1120px;
     --serif:"EB Garamond",Georgia,"Times New Roman",serif;
-    --sans:"Helvetica Neue",Helvetica,Arial,sans-serif;
-    --mono:"Courier Prime","Courier New",Courier,monospace;
-    --headmono:"Geist Mono","Courier Prime",monospace;
-    --headsans:"Geist","Helvetica Neue",sans-serif;
+    --sans:"Geist","Helvetica Neue",Helvetica,Arial,sans-serif;
+    --mono:"Geist Mono",ui-monospace,Menlo,Consolas,monospace;
   }
   *{box-sizing:border-box}
   html{background:var(--paper);color:var(--ink);-webkit-font-smoothing:antialiased}
-  /* their body copy computes to Helvetica Neue, weight 600, 16px/24px —
-     sampled directly, not approximated */
-  body{margin:0;font-family:var(--sans);font-weight:600;font-size:16px;line-height:1.5}
-  .shell{width:min(calc(100% - 48px),var(--max));margin:0 auto}
-  a{color:var(--ink)}
+  body{margin:0;background:var(--paper);font-family:var(--sans);font-size:17px;line-height:1.6}
+  .shell{width:min(calc(100% - 40px),var(--max));margin:0 auto}
+  a{color:inherit;text-decoration-thickness:1px;text-underline-offset:3px}
+  a:hover{text-decoration-thickness:2px}
+  a:focus-visible,summary:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+  p{margin:0 0 20px;max-width:66ch}
+  .mono,.label,nav a,.brand,.tag,.links,.status,.study,.kicker,.map-lead{
+    font-family:var(--mono);font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;font-weight:500}
 
-  /* static, like theirs: the header scrolls away with the page rather than
-     following the reader down it */
-  /* the dashed rule sits on .shell, not the full-bleed .navbar, so its width
-     matches every other dashed rule on the page (and the one under CAREERS
-     on nousresearch.com, which is also inset to content width, not edge to
-     edge) */
-  .navbar{position:relative;z-index:20;background:var(--paper)}
-  .navbar .shell{border-bottom:2px dashed var(--ink)}
-  nav{padding:30px 0 18px;text-align:center;display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap}
-  /* sampled from their real nav links: Geist, weight 500, 15px, uppercase,
-     no extra letter-spacing */
-  nav a{
-    font-family:var(--headsans);font-weight:500;font-size:15px;letter-spacing:normal;
-    text-transform:uppercase;text-decoration:none;margin:0 10px;display:inline-block;line-height:1.9;
-  }
-  nav a:hover{text-decoration:underline;text-underline-offset:4px}
-  nav a.home{text-decoration:underline;text-underline-offset:4px}
+  .top{border-bottom:1px solid var(--ink)}
+  .top .shell{display:flex;align-items:center;justify-content:space-between;gap:12px 24px;padding:16px 0;flex-wrap:wrap}
+  .brand{text-decoration:none;font-weight:600}
+  nav{display:flex;align-items:center;gap:6px 18px;flex-wrap:wrap}
+  nav a{text-decoration:none;color:var(--grey)}
+  nav a:hover{color:var(--ink);text-decoration:underline}
 
-
-  /* language picker — an icon button that opens a popover of language codes,
-     with a caret pointing back at the button. Still plain links inside a
-     <details>, so it works with JavaScript off and a crawler can follow it to
-     the translated page. */
-  .lang{position:relative;margin-left:12px;--pop:#fbfbfc;--hair:rgba(1,113,169,.16)}
-  .lang summary{
-    list-style:none;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;
-    width:38px;height:38px;border-radius:10px;color:var(--ink);
-    background:var(--paper);border:1px solid var(--hair);box-shadow:0 2px 8px rgba(0,0,0,.07);
-  }
+  /* plain links inside <details>: works with JavaScript off, crawlable */
+  .lang{position:relative}
+  .lang summary{list-style:none;cursor:pointer;font-family:var(--mono);font-size:12.5px;letter-spacing:.06em;
+    border:1px solid var(--ink);padding:2px 8px;border-radius:2px}
   .lang summary::-webkit-details-marker{display:none}
-  .lang summary svg{display:block;width:20px;height:20px}
-  .lang summary:hover,.lang[open] summary{background:var(--ink);color:var(--paper);border-color:var(--ink)}
-  .langmenu{
-    position:absolute;left:50%;transform:translateX(-50%);top:calc(100% + 11px);z-index:30;
-    display:flex;align-items:center;gap:2px;padding:5px;white-space:nowrap;
-    background:var(--pop);border:1px solid var(--hair);border-radius:14px;
-    box-shadow:0 6px 18px rgba(0,0,0,.10);
-  }
-  .langmenu::before{
-    content:"";position:absolute;top:-6px;left:50%;width:10px;height:10px;
-    transform:translateX(-50%) rotate(45deg);background:var(--pop);
-    border-left:1px solid var(--hair);border-top:1px solid var(--hair);border-radius:2px;
-  }
-  .langmenu a{
-    display:block;margin:0;padding:7px 12px;border-radius:9px;line-height:1.2;
-    font-family:var(--sans);font-weight:700;font-size:14px;letter-spacing:.01em;
-    text-transform:none;text-decoration:none;color:var(--grey);
-  }
-  .langmenu a:hover{color:var(--ink);text-decoration:none}
-  .langmenu a[aria-current="true"]{background:var(--paper);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+  .lang[open] summary,.lang summary:hover{background:var(--ink);color:var(--paper)}
+  .langmenu{position:absolute;right:0;top:calc(100% + 6px);z-index:10;display:flex;flex-direction:column;
+    background:var(--paper);border:1px solid var(--ink);min-width:9em}
+  .langmenu a{padding:6px 10px;text-decoration:none;font-family:var(--sans);font-size:14px}
+  .langmenu a:hover,.langmenu a[aria-current="true"]{background:var(--ink);color:var(--paper)}
 
-  .rule{border:0;border-top:2px dashed var(--ink);margin:0;opacity:.9}
-
-  .block{
-    display:inline-block;background:var(--ink);color:var(--paper);
-    font-family:var(--headmono);font-weight:600;font-size:clamp(24px,2.4vw,32px);
-    letter-spacing:-.05em;padding:0;margin:0 0 62px;
-  }
-
-  section{padding:56px 0 62px;scroll-margin-top:16px}
-  #application{padding-top:52px}
-  /* two cells on desktop; on mobile the media query collapses to one column and
-     the portrait drops below the mission paragraph, like the portrait on
-     nousresearch.com/careers */
-  .cols{display:grid;grid-template-columns:1fr 200px;gap:48px;align-items:start}
-
-  /* their lead-in words (OUR MISSION, NOUS RESEARCH) render in "mondwest
-     mike" at 28.8px/16px = 1.8em, weight 600, -0.5px letter-spacing — same
-     Geist substitution as the nav, same negative tracking */
-  .lead-in{
-    font-family:var(--headsans);font-weight:600;font-size:1.8em;
-    letter-spacing:-.02em;text-transform:uppercase;line-height:1;
-  }
-  .lead-in a{text-decoration:none}
-  .lead-in a:hover{text-decoration:underline;text-underline-offset:4px}
-
-  p{margin:0 0 22px;max-width:90ch}
-  .u{text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:2px;text-decoration-color:rgba(0,113,169,.42);transition:text-decoration-color .15s,background-color .15s}
-  .u:hover{text-decoration-color:var(--ink);background:rgba(0,113,169,.07)}
-
-  ul{margin:0 0 22px;padding-left:22px;max-width:90ch}
-  li{margin-bottom:14px}
-
-  /* their section heads (OPEN ROLES) are Geist Mono, weight 600, 28.8px,
-     -0.5px letter-spacing — same values .block already uses for APPLICATION */
-  .mono-head{
-    font-family:var(--headmono);font-weight:600;font-size:clamp(22px,2.4vw,28.8px);
-    letter-spacing:-.02em;text-transform:uppercase;margin:0 0 30px;
-  }
-  .mono-head .hw{text-decoration:underline;text-underline-offset:6px;text-decoration-thickness:2px}
-  .mono-head .sub{font-family:var(--sans);font-weight:600;font-size:.5em;letter-spacing:0;text-transform:none;color:var(--grey);margin-left:14px}
-
-  /* floating, unframed — matches the portrait on nousresearch.com/careers.
-     A mild top-anchored crop (their own portrait is close to square) keeps
-     the block from towering over the single mission paragraph beside it —
-     full face and hair stay in frame, only some jacket at the bottom is lost. */
-  .portrait{border-radius:6px;overflow:hidden;box-shadow:0 4px 8px rgba(0,0,0,.05);aspect-ratio:3/3.6}
+  .hero{display:grid;grid-template-columns:minmax(0,1fr) 220px;gap:56px;padding:72px 0 64px;align-items:start}
+  .kicker{display:inline-block;border:1px solid var(--ink);padding:3px 8px;margin:0 0 28px;letter-spacing:.14em}
+  h1{font-family:var(--serif);font-weight:500;font-size:clamp(52px,9vw,112px);line-height:.92;letter-spacing:-.02em;margin:0 0 20px}
+  .tagline{font-family:var(--serif);font-size:clamp(22px,2.6vw,30px);line-height:1.25;color:var(--grey);max-width:30ch;margin:0 0 44px}
+  .opening p{font-size:clamp(18px,1.7vw,20px);max-width:58ch}
+  .opening p:first-child{font-family:var(--serif);font-size:clamp(26px,3vw,34px);line-height:1.2;max-width:26ch}
+  .status{color:var(--grey);border-top:1px solid var(--hair);padding-top:14px;margin:32px 0 0;max-width:none;line-height:1.7}
+  .portrait{aspect-ratio:3/3.8;overflow:hidden;filter:grayscale(1);margin-top:8px}
   .portrait img{display:block;width:100%;height:100%;object-fit:cover;object-position:top center}
 
-  /* condensed "what I want" list, in the same badge + title + one-liner shape
-     as the "OPEN ROLES" list on nousresearch.com/careers, values sampled from
-     its .badge/.role-title/.role-description */
-  .rolelist{margin:0 0 26px;max-width:78ch}
-  .role-item{padding:12.8px 0;border-bottom:1px dotted var(--ink)}
-  .role-title{display:flex;align-items:center;gap:8px;font-weight:600;font-size:17.6px;margin:0}
-  .badge{display:inline-block;background:#007bff;color:#fff;padding:1.6px 4.8px;border-radius:1px;font-weight:600;font-size:9.6px;letter-spacing:.03em;text-transform:uppercase;white-space:nowrap}
-  /* body copy dropped to 600 globally, but their .role-description is 700 —
-     stated explicitly here rather than inherited */
-  .role-body{margin:6px 0 0;font-weight:700;font-size:15.2px;line-height:1.5}
+  .part{display:grid;grid-template-columns:200px minmax(0,1fr);gap:40px;padding:64px 0;border-top:1px solid var(--ink)}
+  .label{color:var(--grey);margin:10px 0 0}
+  h2{font-family:var(--serif);font-weight:500;font-size:clamp(36px,4.6vw,58px);line-height:1;letter-spacing:-.015em;margin:0 0 32px}
+  h3{font-size:18px;font-weight:600;margin:0 0 8px}
 
-  /* mirrors their "HOW TO APPLY" list: square markers, 16px, same ink */
-  .applylist{list-style:square;padding-left:16px;margin:16px 0 26px;max-width:78ch}
-  .applylist li{margin:0 0 8px;font-size:16px;font-weight:600;line-height:1.5;overflow-wrap:anywhere}
+  .cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px;margin:0 0 36px}
+  .card{border-top:1px solid var(--ink);padding-top:16px}
+  .card p{font-size:16px;margin:0}
+  .aside{color:var(--grey);border-left:1px solid var(--ink);padding-left:16px}
 
-  /* matches the "if nothing fits" callout on nousresearch.com/careers exactly */
-  /* no max-width — their real .custom-footnote rule doesn't cap it either,
-     it just fills the content column like everything else on the page */
-  .footnote{
-    display:flex;align-items:flex-start;
-    background:var(--ink);color:var(--paper);border-left:5px solid #00547e;border-radius:1px;
-    box-shadow:0 2px 8px rgba(0,0,0,.08);padding:.8rem 1.8rem;
-    font-family:var(--sans);font-weight:500;font-size:15.2px;line-height:1.6;letter-spacing:.02em;
-  }
-  .footnote .info-icon{width:20px;height:20px;min-width:20px;margin:3px 12px 0 0;flex-shrink:0}
+  .projects{list-style:none;margin:0 0 28px;padding:0;border-bottom:1px solid var(--hair)}
+  .project{display:grid;grid-template-columns:230px minmax(0,1fr);gap:6px 32px;padding:24px 0;border-top:1px solid var(--hair)}
+  .project h3{font-family:var(--serif);font-weight:500;font-size:30px;line-height:1.05;margin:0 0 8px}
+  .tag{color:var(--grey);font-size:11.5px;line-height:1.5}
+  .project p{margin:0}
+  .links{display:flex;flex-wrap:wrap;gap:4px 18px;margin:12px 0 0}
 
-  #contact{padding-bottom:80px}
+  .map-lead{color:var(--grey);margin:36px 0 8px}
+  .map{display:grid;grid-template-columns:minmax(0,15em) minmax(0,1fr);margin:0;border-top:1px solid var(--hair)}
+  .map dt,.map dd{margin:0;padding:10px 0;border-bottom:1px solid var(--hair)}
+  .map dt{font-weight:600;padding-right:20px}
+  .study{border:1px solid var(--ink);display:inline-block;padding:6px 10px;margin:8px 0 20px;line-height:1.6}
 
-  @media (max-width:900px){
-    .cols{grid-template-columns:1fr;gap:36px}
-    .portrait{max-width:240px}
-    nav{padding:16px 0 12px}
-    nav a{margin:0 7px;font-size:14px;line-height:1.9}
-    section{padding:40px 0 44px}
-    #application{padding-top:34px}
-    .mono-head .sub{display:block;margin:8px 0 0}
-    .footnote{padding:.7rem 1.1rem}
+  .contact{border-top:1px solid var(--ink)}
+  .contact h2{font-size:clamp(44px,6vw,76px)}
+  .contact dd a{overflow-wrap:anywhere}
+
+  footer{border-top:1px solid var(--ink);padding:28px 0 48px;color:var(--grey);font-size:14px}
+  footer .shell{display:flex;justify-content:space-between;gap:16px 40px;flex-wrap:wrap}
+  footer p{margin:0;max-width:60ch}
+  footer .links{margin:0}
+
+  @media (max-width:860px){
+    body{font-size:16px}
+    .hero{grid-template-columns:1fr;gap:32px;padding:44px 0 48px}
+    .portrait{max-width:200px}
+    .part{grid-template-columns:1fr;gap:10px;padding:48px 0}
+    h2{margin-bottom:24px}
+    .cards,.project,.map{grid-template-columns:1fr}
+    .cards{gap:24px}
+    .map dt{border-bottom:0;padding-bottom:0}
+    .map dd{padding-top:2px}
   }
 `;
 
-// the five Ws, in order, as the page's sections and its whole navigation
-const ids = ['who', 'what', 'built', 'why', 'where', 'when'];
+const ids = ['person', 'work', 'proof', 'fit', 'gap', 'logistics'];
+const contactHrefs = [`mailto:${links.email}`, links.cv, links.portfolio, links.projects, links.github, links.linkedin];
+const contactText = [links.email, 'javier-ponz-prado-cv.pdf', 'javierponz.technoir.cloud', 'javierponz.technoir.cloud/#projects', 'github.com/ponzgpt', 'linkedin.com/in/javierponz'];
+
+const paras = (list) => list.map((p) => `      <p>${p}</p>`).join('\n');
+
+const part = (id, s, body) => `
+  <section class="part" id="${id}" aria-labelledby="${id}-h">
+    <p class="label">${s.label}</p>
+    <div>
+      <h2 id="${id}-h">${s.head}</h2>
+${body}
+    </div>
+  </section>`;
 
 function render(lang) {
   const c = content[lang.code];
-  const base = lang.dir ? `/${lang.dir}` : '/';
-  const url = `${SITE}${base}`;
+  const url = `${SITE}${lang.dir ? `/${lang.dir}` : '/'}`;
 
   const jsonLd = {
     '@context': 'https://schema.org', '@type': 'Person',
     name: 'Javier Ponz Prado',
     jobTitle: 'Technical support and agent operations',
     description: c.desc,
-    email: 'nerion89@gmail.com',
+    email: links.email,
     address: { '@type': 'PostalAddress', addressLocality: 'Aberdeen', addressCountry: 'GB' },
-    url: 'https://javierponz.technoir.cloud/',
-    sameAs: ['https://github.com/ponzgpt', 'https://www.linkedin.com/in/javierponz'],
-    seeks: { '@type': 'Demand', name: 'Technical support engineering / customer success at Nous Research' },
-    knowsAbout: ['Hermes Agent', 'Model Context Protocol', 'agent workflows', 'technical support',
-      'customer success', 'technical troubleshooting', 'llama.cpp', 'local inference', 'open weights', 'Omarchy',
-      'Arch Linux', 'Fedora', 'GrapheneOS', 'OSINT', 'Docker', 'Traefik', 'nginx', 'Linux', 'VPS administration',
-      'Python', 'JavaScript', 'TypeScript', 'Astro', 'Swift', 'CI/CD', 'PC hardware', 'overclocking'],
+    url: links.portfolio,
+    sameAs: [links.github, links.linkedin],
+    seeks: { '@type': 'Demand', name: 'Early-career path toward Forward Deployed Engineer at Nous Research' },
+    knowsAbout: ['technical support', 'technical troubleshooting', 'Hermes Agent', 'Model Context Protocol',
+      'agent workflows', 'Docker', 'Traefik', 'nginx', 'Linux', 'JavaScript'],
     knowsLanguage: ['es', 'en'],
     inLanguage: lang.html
   };
 
-  const navLinks = [
-    `<a class="home" href="https://javierponz.technoir.cloud/">${c.home}</a>`,
-    ...ids.map((id, i) => `<a href="#${id}">${c.nav[i]}</a>`)
-  ].join('\n      ');
-
-  const langMenu = langs.map((l) => {
-    const to = l.dir ? `/${l.dir}` : '/';
-    return `<a href="${to}" hreflang="${l.html}" lang="${l.html}" title="${l.name}"${l.code === lang.code ? ' aria-current="true"' : ''}>${l.label}</a>`;
-  }).join('\n          ');
-
   const alternates = langs.map((l) =>
     `<link rel="alternate" hreflang="${l.html}" href="${SITE}${l.dir ? `/${l.dir}` : '/'}" />`).join('\n');
 
-  const roleList = c.what.roles.map((r) => `
-      <div class="role-item">
-        <div class="role-title"><span class="badge">${r.badge}</span>${r.title}</div>
-        <p class="role-body">${r.body}</p>
-      </div>`).join('\n');
+  const langMenu = langs.map((l) =>
+    `<a href="${l.dir ? `/${l.dir}` : '/'}" hreflang="${l.html}" lang="${l.html}"${l.code === lang.code ? ' aria-current="true"' : ''}>${l.name}</a>`
+  ).join('\n            ');
 
-  const applyList = c.contact.applyItems.map((i) => `      <li>${i}</li>`).join('\n');
+  const nav = ids.map((id, i) => `<a href="#${id}">${String(i + 1).padStart(2, '0')} ${c.nav[i]}</a>`).join('\n        ');
+
+  const work = `      <div class="cards">
+${c.work.blocks.map((b) => `        <div class="card"><h3>${b.title}</h3><p>${b.body}</p></div>`).join('\n')}
+      </div>
+      <p class="aside">${c.work.calibration}</p>`;
+
+  const proof = `      <p>${c.proof.intro}</p>
+      <ul class="projects">
+${c.proof.projects.map((p) => `        <li class="project">
+          <div><h3>${p.name}</h3><p class="tag">${p.tag}</p></div>
+          <div>
+            <p>${p.body}</p>
+            <p class="links">${p.links.map(([href, t]) => `<a href="${href}">${t} ↗</a>`).join(' ')}</p>
+          </div>
+        </li>`).join('\n')}
+      </ul>
+      <p class="aside">${c.proof.note}</p>`;
+
+  const fit = `${paras(c.fit.paras)}
+      <p class="map-lead">${c.fit.mapLead}</p>
+      <dl class="map">
+${c.fit.map.map(([k, v]) => `        <dt>${k}</dt><dd>${v}</dd>`).join('\n')}
+      </dl>`;
+
+  const gap = `${paras(c.gap.paras)}
+      <p class="study">${c.gap.study}</p>
+      <p>${c.gap.more}</p>`;
+
+  const contact = `${paras(c.contact.paras)}
+      <dl class="map">
+${c.contact.items.map((k, i) => `        <dt>${k}</dt><dd><a href="${contactHrefs[i]}">${contactText[i]}</a></dd>`).join('\n')}
+      </dl>`;
 
   return `<!doctype html>
 <html lang="${lang.html}">
@@ -266,91 +210,63 @@ ${alternates}
 <meta property="og:locale" content="${lang.html.replace('-', '_')}" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500&display=swap" rel="stylesheet" />
 <style>${styles}</style>
 <script type="application/ld+json">${JSON.stringify(jsonLd)}</script>
 </head>
 <body>
-<div class="navbar">
+<header class="top">
   <div class="shell">
-    <nav>
-      ${navLinks}
-      <details class="lang">
-        <summary aria-label="Language" title="Language"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z" /></svg></summary>
-        <div class="langmenu">
-          ${langMenu}
-        </div>
-      </details>
+    <a class="brand" href="${links.portfolio}">Javier Ponz · ${c.portfolio} ↗</a>
+    <nav aria-label="Sections">
+        ${nav}
+        <details class="lang">
+          <summary aria-label="${c.langLabel}">${lang.label}</summary>
+          <div class="langmenu">
+            ${langMenu}
+          </div>
+        </details>
     </nav>
   </div>
-</div>
+</header>
 
-<div class="shell">
-
-  <section id="application">
-    <h1 class="block">${c.block}</h1>
-    <div class="cols">
-      <p>${c.application.mission}</p>
-      <div class="portrait">
-        <img src="/javier-sketch.jpg" alt="${c.portraitAlt}" width="720" height="960" />
+<main class="shell">
+  <section class="hero" id="application">
+    <div>
+      <p class="kicker">${c.block}</p>
+      <h1>Javier Ponz</h1>
+      <p class="tagline">${c.tagline}</p>
+      <div class="opening">
+${paras(c.opening)}
       </div>
+      <p class="status">${c.status}</p>
+    </div>
+    <div class="portrait">
+      <img src="/javier-sketch.jpg" alt="${c.portraitAlt}" width="720" height="960" />
     </div>
   </section>
-  <hr class="rule" />
+${part('person', c.person, paras(c.person.paras))}
+${part('work', c.work, work)}
+${part('proof', c.proof, proof)}
+${part('fit', c.fit, fit)}
+${part('gap', c.gap, gap)}
+${part('logistics', c.logistics, `      <p>${c.logistics.para}</p>`)}
+${part('contact', c.contact, contact).replace('class="part"', 'class="part contact"')}
+</main>
 
-  <section id="who">
-    <h2 class="mono-head"><span class="hw">${c.who.head}</span><span class="sub">${c.who.sub}</span></h2>
-${c.who.paras.map((p) => `    <p>${p}</p>`).join('\n\n')}
-  </section>
-  <hr class="rule" />
-
-  <section id="what">
-    <h2 class="mono-head"><span class="hw">${c.what.head}</span><span class="sub">${c.what.sub}</span></h2>
-    <div class="rolelist">
-${roleList}
-    </div>
-  </section>
-  <hr class="rule" />
-
-  <section id="built">
-    <h2 class="mono-head"><span class="hw">${c.built.head}</span><span class="sub">${c.built.sub}</span></h2>
-${c.built.paras.map((p) => `    <p>${p}</p>`).join('\n\n')}
-  </section>
-  <hr class="rule" />
-
-  <section id="why">
-    <h2 class="mono-head"><span class="hw">${c.why.head}</span><span class="sub">${c.why.sub}</span></h2>
-${c.why.paras.map((p) => `    <p>${p}</p>`).join('\n\n')}
-  </section>
-  <hr class="rule" />
-
-  <section id="where">
-    <h2 class="mono-head"><span class="hw">${c.where.head}</span><span class="sub">${c.where.sub}</span></h2>
-${c.where.paras.map((p) => `    <p>${p}</p>`).join('\n\n')}
-  </section>
-  <hr class="rule" />
-
-  <section id="when">
-    <h2 class="mono-head"><span class="hw">${c.when.head}</span><span class="sub">${c.when.sub}</span></h2>
-${c.when.paras.map((p) => `    <p>${p}</p>`).join('\n\n')}
-  </section>
-  <hr class="rule" />
-
-  <section id="contact">
-    <h2 class="mono-head"><span class="hw">${c.contact.head}</span></h2>
-${c.contact.paras.map((p) => `    <p>${p}</p>`).join('\n\n')}
-    <p>${c.contact.applyLead}</p>
-    <ul class="applylist">
-${applyList}
-    </ul>
-    <div class="footnote">
-      <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg>
-      <span>${c.contact.notice}</span>
-    </div>
-  </section>
-
-</div>
-
+<footer>
+  <div class="shell">
+    <p>${c.footer}</p>
+    <p class="links">
+      <a href="${links.portfolio}">${c.portfolio} ↗</a>
+      <a href="${links.github}">GitHub ↗</a>
+      <a href="${links.linkedin}">LinkedIn ↗</a>
+      <a href="${links.hermes}">Hermes Agent ↗</a>
+      <a href="${links.careers}">Nous careers ↗</a>
+      <a href="/llms.txt">llms.txt</a>
+    </p>
+  </div>
+</footer>
 </body>
 </html>
 `;
