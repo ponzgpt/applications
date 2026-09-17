@@ -262,6 +262,7 @@ function render(lang) {
       </div>`).join('\n');
 
   const mapList = c.fit.map.map(([k, v]) => `      <li><b>${k}</b> — ${v}</li>`).join('\n');
+  const nextList = c.gap.next.map(([k, v]) => `      <li><b>${k}</b> — ${v}</li>`).join('\n');
   const applyList = c.contact.items.map((i) => `      <li>${i}</li>`).join('\n');
 
   return `<!doctype html>
@@ -353,6 +354,12 @@ ${mapList}
   <section id="gap">
     <h2 class="mono-head"><span class="hw">${c.gap.head}</span><span class="sub">${c.gap.sub}</span></h2>
 ${paras(c.gap.paras)}
+    <p>${c.gap.nextLead}</p>
+    <ul class="maplist">
+${nextList}
+    </ul>
+    <p>${c.gap.method}</p>
+    <p>${c.gap.study}</p>
   </section>
   <hr class="rule" />
 

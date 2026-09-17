@@ -60,6 +60,14 @@ observability, networking, production agent infrastructure. A local-inference
 lab is being rebuilt; the rigs are currently offline, so no model is served
 from his hardware at present.
 
+Starting next, stated as intent rather than experience: Kubernetes and
+container orchestration (on top of the Docker, Traefik and nginx he already
+runs in production), Python, and a homelab of his own currently in design —
+hardware, topology and networking. He learns these with an LLM and an agent
+harness beside him, targeting the portion that makes a system operable:
+enough to deploy it, read what the harness proposes, and catch it when it is
+wrong. None of this is claimed as professional experience.
+
 ## Contact
 
 nerion89@gmail.com · https://github.com/ponzgpt ·

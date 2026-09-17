@@ -93,9 +93,16 @@ export const content = {
     gap: { head: 'Gap', sub: '— where I am still learning', paras: [
       `The gap is specific. I'll name it once.`,
       `Backend engineering, cloud and hybrid deployment, APIs and auth, observability, networking, the infrastructure around production agents. I haven't shipped enterprise software for five years, and I won't write like I have.`,
-      `What I do have: a decade of hands-on support, the habit of finding the fault instead of performing confidence, and a willingness to learn where the system has to work. I'm asking to close the gap toward Forward Deployed Engineer — not asking you to pretend it's closed.`,
-      `Studying AI and Full Stack development at Universidad Rey Juan Carlos via Racks Academy, in progress. The rest of the learning log is on the <a class="u" href="${links.portfolio}">portfolio</a>.`
-    ] },
+      `What I do have: a decade of hands-on support, the habit of finding the fault instead of performing confidence, and a willingness to learn where the system has to work. I'm asking to close the gap toward Forward Deployed Engineer — not asking you to pretend it's closed.`
+    ],
+      nextLead: `What I am starting next, stated as intent rather than experience:`,
+      next: [
+        ['Kubernetes and orchestration', 'starting, on top of the Docker, Traefik and nginx I already run in production'],
+        ['Python', 'building on it now; not claiming it as a language I know'],
+        ['A homelab of my own', 'in design: hardware, topology, networking']
+      ],
+      method: `I learn this with an LLM and an agent harness beside me. I am after the 20% that makes a system operable: enough to deploy it, read what the harness proposes, and catch it when it is wrong.`,
+      study: `Studying AI and Full Stack development at Universidad Rey Juan Carlos via Racks Academy, in progress. The rest of the learning log is on the <a class="u" href="${links.portfolio}">portfolio</a>.` },
 
     logistics: { head: 'Logistics', sub: '— based, available, reachable', paras: [
       `Aberdeen, Scotland. Comfortable across UK and European hours, happy to travel when being in the room matters, open to relocation for the right fit. No notice period — I can start now.`
@@ -175,9 +182,16 @@ export const content = {
     gap: { head: 'Distancia', sub: '— dónde sigo aprendiendo', paras: [
       `La distancia es concreta. La nombro una vez.`,
       `Ingeniería de backend, despliegue en nube e híbrido, APIs y autenticación, observabilidad, redes, la infraestructura de agentes en producción. No llevo cinco años entregando software empresarial, y no voy a escribir como si así fuera.`,
-      `Lo que sí tengo: una década de soporte directo, la costumbre de buscar la avería en vez de aparentar seguridad, y ganas de aprender donde el sistema tiene que funcionar. Pido cerrar la distancia hacia Forward Deployed Engineer, no que finjáis que ya está cerrada.`,
-      `Estudiando IA y desarrollo Full Stack en la Universidad Rey Juan Carlos vía Racks Academy, en curso. El resto del registro de aprendizaje está en el <a class="u" href="${links.portfolio}">portafolio</a>.`
-    ] },
+      `Lo que sí tengo: una década de soporte directo, la costumbre de buscar la avería en vez de aparentar seguridad, y ganas de aprender donde el sistema tiene que funcionar. Pido cerrar la distancia hacia Forward Deployed Engineer, no que finjáis que ya está cerrada.`
+    ],
+      nextLead: `Lo que empiezo ahora, dicho como intención y no como experiencia:`,
+      next: [
+        ['Kubernetes y orquestación', 'empezando, sobre el Docker, Traefik y nginx que ya tengo en producción'],
+        ['Python', 'trabajándolo ahora; todavía no lo reclamo como lenguaje que sé'],
+        ['Un homelab propio', 'en diseño: hardware, topología, redes']
+      ],
+      method: `Esto lo aprendo con un LLM y un arnés de agentes al lado. Voy a por el 20% que hace operable un sistema: lo justo para desplegarlo, leer lo que propone el arnés y pillarlo cuando se equivoca.`,
+      study: `Estudiando IA y desarrollo Full Stack en la Universidad Rey Juan Carlos vía Racks Academy, en curso. El resto del registro de aprendizaje está en el <a class="u" href="${links.portfolio}">portafolio</a>.` },
 
     logistics: { head: 'Logística', sub: '— base, disponibilidad, contacto', paras: [
       `Aberdeen, Escocia. Cómodo en horario de Reino Unido y Europa, encantado de viajar cuando importa estar presente, abierto a mudanza si el encaje es bueno. Sin preaviso: puedo empezar ya.`
@@ -257,9 +271,16 @@ export const content = {
     gap: { head: '差距', sub: '— 我仍在学习的地方', paras: [
       `差距是具体的，我只说一次。`,
       `后端工程、云与混合部署、API 与身份认证、可观测性、网络，以及生产环境智能体周边的基础设施。我没有五年交付企业软件的经历，也不会写得好像有。`,
-      `我有的是：十年一线支持经验、找故障而不是装自信的习惯，以及在系统必须运转的地方学习的意愿。我请求的是朝 FDE 缩小差距的机会，不是让你们假装差距不存在。`,
-      `在读：AI 与全栈开发，胡安·卡洛斯国王大学（经由 Racks Academy），进行中。更完整的学习记录见${'<a class="u" href="' + links.portfolio + '">作品集</a>'}。`
-    ] },
+      `我有的是：十年一线支持经验、找故障而不是装自信的习惯，以及在系统必须运转的地方学习的意愿。我请求的是朝 FDE 缩小差距的机会，不是让你们假装差距不存在。`
+    ],
+      nextLead: `接下来要开始的事情——这里写的是打算，不是经验：`,
+      next: [
+        ['Kubernetes 与容器编排', '刚起步，建立在我已经跑在生产环境里的 Docker、Traefik 和 nginx 之上'],
+        ['Python', '正在补；还不敢说这是我会的语言'],
+        ['属于自己的 homelab', '设计阶段：硬件、拓扑、网络']
+      ],
+      method: `这些我是带着 LLM 和智能体框架一起学的。我要的是让系统变得可操作的那 20%：够用来部署它、读懂框架提出的方案，并在它出错时发现问题。`,
+      study: `在读：AI 与全栈开发，胡安·卡洛斯国王大学（经由 Racks Academy），进行中。更完整的学习记录见${'<a class="u" href="' + links.portfolio + '">作品集</a>'}。` },
 
     logistics: { head: '安排', sub: '— 所在地、到岗、联系方式', paras: [
       `苏格兰阿伯丁。可以配合英国与欧洲时区，在需要到场时乐意出差，遇到合适机会也考虑搬迁。没有离职通知期，现在就能开始。`
