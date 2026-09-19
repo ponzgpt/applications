@@ -6,7 +6,7 @@ APP=applications
 # One host per application site; add a company here and in nginx.conf.
 DOMAINS="nousresearch.technoir.cloud nouscandidate.technoir.cloud 37signals.technoir.cloud"
 DOMAIN=${DOMAINS%% *}
-RULE=$(printf 'Host(\\\`%s\\\`) || ' $DOMAINS); RULE=${RULE% || }
+RULE=$(printf 'Host("%s") || ' $DOMAINS); RULE="'${RULE% || }'"   # Traefik accepts double-quoted hosts; single quotes keep it one YAML string
 PORT=80
 CHECK='./scripts/check.sh'
 HOST=${HOST:-hoid}
