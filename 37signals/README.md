@@ -12,6 +12,4 @@ of showing I read it. All words and content are mine.
 Static HTML, no build step. Deploys as nginx behind Traefik, same pattern as
 the rest of my sites.
 
-```bash
-docker build -t thirtyseven-application . && docker run --rm -p 8080:80 thirtyseven-application
-```
+Checked and deployed from the repo root: `./scripts/check.sh`, `./scripts/deploy.sh`.

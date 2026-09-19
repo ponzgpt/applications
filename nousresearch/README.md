@@ -18,7 +18,4 @@ Getting that distinction wrong would be the only thing on here worth catching.
 pages; `check.mjs` fails on missing sections or obsolete claims. Deploys as nginx
 behind Traefik, same pattern as the rest of my sites.
 
-```bash
-node build.mjs && node check.mjs && node build-cover-letter.mjs
-docker build -t nous-application . && docker run --rm -p 8080:80 nous-application
-```
+Checked and deployed from the repo root: `./scripts/check.sh`, `./scripts/deploy.sh`.
