@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://nousresearch.technoir.cloud/sitemap.xml

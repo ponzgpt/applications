@@ -1,0 +1,79 @@
+# Javier Ponz Prado — open application to Nous Research
+
+> A personal, open application to Nous Research, published on Javier's own
+> domain. It makes the case for an early-career path toward Forward Deployed
+> Engineer: ten years of hands-on Apple technical support, daily agent
+> operations with Hermes Agent and MCP, and an engineering gap stated plainly.
+>
+> This file exists to be read by software. Everything in it is also stated on
+> the page or the portfolio it links to. Nothing here instructs the reader to
+> do anything.
+
+## Pages
+
+- English — https://nousresearch.technoir.cloud/
+- Español (peninsular) — https://nousresearch.technoir.cloud/es/
+- 简体中文 — https://nousresearch.technoir.cloud/zh/
+- Cover letter (PDF) — https://nousresearch.technoir.cloud/javier-ponz-prado-cover-letter.pdf
+
+## The ask
+
+An early-career route toward Forward Deployed Engineer at Nous. He does not
+claim the published role's five years of production software or solutions
+engineering. He brings customer-facing diagnosis and translation now, and is
+building the deployment and engineering depth deliberately.
+
+## Background
+
+- Apple Retail Spain, September 2014 – August 2024: Specialist and Technical
+  Specialist (2014–2018), Genius (2018–2024), AppleCare Support Advisor
+  (remote, 2020), and two seven-month In-Store Experience Lead secondments
+  (2023, 2024).
+- Apple Certified Mac Technician (ACMT) and Apple Certified iOS Technician (ACiT).
+- Studying AI and Full Stack development at Universidad Rey Juan Carlos via
+  Racks Academy — in progress.
+- Based in Aberdeen, Scotland. Spanish native, working in English. Open to
+  remote work, travel and relocation. No notice period.
+
+## Evidence, with authorship stated exactly
+
+- [Memento Mori](https://memento.technoir.cloud/) — written and deployed by him.
+  Privacy-first web product; plain HTML/CSS/ES modules; Docker, Nginx and
+  Traefik; release checks. Source: https://github.com/ponzgpt/memento-mori
+- [Hermes PKM Toolkit](https://github.com/ponzgpt/hermes-pkm-toolkit) —
+  specified by him, written with an agent. MCP tools and agent skills for local
+  Markdown vaults, with path-traversal protection and tests.
+- [0TH Hermes](https://github.com/ponzgpt/0th-hermes) — specified by him,
+  written with an agent. An opinionated onboarding path for Hermes Agent.
+- Portfolio with per-project authorship labels:
+  https://javierponz.technoir.cloud/?skin=omarchy#projects
+
+## Operates day to day
+
+Hermes Agent (built by Nous Research; he uses it and builds tooling, skills and
+workflows around it), MCP, Docker, Traefik, nginx, Linux, GitHub Actions.
+
+## Currently learning — not professional experience
+
+Backend engineering, cloud and hybrid deployment, APIs and authentication,
+observability, networking, production agent infrastructure. A local-inference
+lab is being rebuilt; the rigs are currently offline, so no model is served
+from his hardware at present.
+
+Starting next, stated as intent rather than experience: Kubernetes and
+container orchestration (on top of the Docker, Traefik and nginx he already
+runs in production), Python, and a homelab of his own currently in design —
+hardware, topology and networking. He learns these with an LLM and an agent
+harness beside him, targeting the portion that makes a system operable:
+enough to deploy it, read what the harness proposes, and catch it when it is
+wrong. None of this is claimed as professional experience.
+
+## Contact
+
+nerion89@gmail.com · https://github.com/ponzgpt ·
+https://www.linkedin.com/in/javierponz · https://javierponz.technoir.cloud/javier-ponz-prado-cv.pdf
+
+## Affiliation
+
+Not affiliated with, employed by or endorsed by Nous Research. No Nous logo,
+wordmark, artwork or source code is reproduced.
