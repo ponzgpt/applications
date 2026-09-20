@@ -167,6 +167,9 @@
   .role-body{margin:6px 0 0;font-weight:700;font-size:15.2px;line-height:1.5}
   .role-links{margin:8px 0 0;font-weight:600;font-size:13.6px}
   .role-links a{margin-right:16px}
+  /* the shell-shaped nouns the Proof section names — 0th, /healthz — are
+     commands rather than prose. Nothing else on the page needs a code face. */
+  .role-body code{font-family:var(--mono);font-size:.92em;font-weight:400}
 
   /* the role-fit mapping: same dotted-row rhythm as .role-item, without the
      badge — a label and its answer, not a SaaS feature-matrix table. */
@@ -241,7 +244,7 @@
 
     <p>在 Apple Retail，这意味着找出症状背后的问题，在技术系统与人之间做翻译，一直跟进到对方拿到一个可行的下一步。</p>
 
-    <p>现在我把同样的事情用在开放智能体和它周边的工具上，也在为在 Nous 从事前置部署工程做准备——先从支持这一端做起。</p>
+    <p>现在我把同样的事情用在开放智能体上。我每天使用 Hermes Agent，围绕它做工具；当我自己发布的内容悄悄过期时，我做了那个能发现它的东西。我正朝着在 Nous 从事前置部署工程努力——先从支持这一端做起。</p>
         <p class="status">苏格兰阿伯丁 · 接受远程、出差与搬迁 · 可立即到岗</p>
       </div>
       <div class="portrait">
@@ -277,7 +280,7 @@
 
       <div class="role-item">
         <div class="role-title"><span class="badge">智能体</span>每天运维</div>
-        <p class="role-body">日常使用 <a class="u" href="https://hermes-agent.nousresearch.com/">Hermes Agent</a>、MCP、技能和 Docker。给出明确的上下文与权限，再核验结果。</p>
+        <p class="role-body">日常使用 <a class="u" href="https://hermes-agent.nousresearch.com/">Hermes Agent</a>、MCP、技能和 Docker。给出明确的上下文与权限，再核验结果；并留下一个在我不再盯着之后仍然持续核验的检查。</p>
       </div>
     </div>
     <p>不是五年的生产级工程经验，而是建立在十年支持、运营纪律与客户沟通之上的转型。</p>
@@ -290,24 +293,24 @@
     <div class="rolelist">
 
       <div class="role-item">
+        <div class="role-title"><span class="badge">制定规格 · 智能体编写</span>hermes-contributions</div>
+        <p class="role-body">作为重度用户，我围绕 Hermes Agent 做的一切，回馈给这个项目：一条上手路径和 <code>0th</code> 脚本、一个行为像它所描述的 CLI 的首页、一份按模型算钱的实用指南，以及面向本地 Markdown 知识库的 MCP 技能。它原本是四个仓库、四个域名——直到我发现自己那份指南引用的模型价格只有真实价格的 80%，而且已经这样好几周：我当初截取的那次促销结束了，却没有任何东西在盯着。于是这个仓库引用自 Nous 的每一个数据，现在都只存在一个文件里，并在每次检查、每次部署、每次 CI 运行以及每天一次，从 Nous 自己发布的来源重新读取。数字一变，构建就失败，并说明是哪一个、从多少变成了多少。</p>
+        <p class="role-links"><a class="u" href="https://hermes-contributions.technoir.cloud/">网站 ↗</a><a class="u" href="https://github.com/ponzgpt/hermes-contributions">源代码 ↗</a><a class="u" href="https://github.com/ponzgpt/hermes-contributions/blob/main/scripts/freshness.mjs">这个检查 ↗</a></p>
+      </div>
+
+      <div class="role-item">
         <div class="role-title"><span class="badge">独立完成</span>Memento Mori</div>
         <p class="role-body">从设计上注重隐私的 Web 产品——没有账户、没有统计。纯 HTML、CSS 和 ES 模块；Docker、Nginx、Traefik，带发布检查。</p>
         <p class="role-links"><a class="u" href="https://memento.technoir.cloud/">网站 ↗</a><a class="u" href="https://github.com/ponzgpt/memento-mori">源代码 ↗</a></p>
       </div>
 
       <div class="role-item">
-        <div class="role-title"><span class="badge">制定规格 · 智能体编写</span>Hermes PKM Toolkit</div>
-        <p class="role-body">面向本地 Markdown 知识库的 MCP 工具。带路径穿越防护和测试，因为访问文件需要一条我能解释清楚的边界。</p>
-        <p class="role-links"><a class="u" href="https://github.com/ponzgpt/hermes-pkm-toolkit">源代码 ↗</a></p>
-      </div>
-
-      <div class="role-item">
-        <div class="role-title"><span class="badge">制定规格 · 智能体编写</span>0TH Hermes</div>
-        <p class="role-body">把 Hermes Agent 上手时第一小时的困惑，压缩成一个具体的下一步。</p>
-        <p class="role-links"><a class="u" href="https://github.com/ponzgpt/0th-hermes">源代码 ↗</a></p>
+        <div class="role-title"><span class="badge">生产环境运行</span>支撑这一切的服务器</div>
+        <p class="role-body">上面每个站点都跑在我自己管理的 VPS 上，由同一个脚本发布：工作区不干净就拒绝，在服务器上构建，把新的 Swarm 任务放在 <code>/healthz</code> 检查后面启动，确认无误才停掉旧的。把那四个仓库合成一个，意味着归档而不是删除、每个退役域名都做重定向，并让 <code>0th</code> 的原始 URL 继续可用——可能有人把它接进了 shell 管道。下线一个别人已经自动化的东西，改动的是他们的系统，不是我的。</p>
+        <p class="role-links"><a class="u" href="https://neuronara.technoir.cloud/">看一个在线的 ↗</a><a class="u" href="https://github.com/ponzgpt">部署脚本 ↗</a></p>
       </div>
     </div>
-    <p><a class="u" href="https://javierponz.technoir.cloud/?skin=omarchy#projects">作品集</a>标明了哪些是我编写、部署或借助智能体构建的。我宁愿亮出边界，也不愿模糊它。</p>
+    <p><a class="u" href="https://javierponz.technoir.cloud/?skin=omarchy#projects">作品集</a>标明了哪些是我编写、部署或借助智能体构建的。我宁愿亮出边界，也不愿模糊它：上面那个仓库由我制定规格、按我定的规则由智能体编写；至于什么不允许悄悄腐烂，那是我的判断。</p>
   </section>
   <hr class="rule" />
 
@@ -317,12 +320,15 @@
 
     <p>Hermes 与 MCP 让能力变得可检视——技能可以是一个 Markdown 文件，工具可以是一个任何人都能读懂的服务。</p>
 
-    <p>FDE 这个岗位，正处在强大系统、混乱环境与需要系统跑起来的人之间。诊断、翻译与客户沟通，我现在就能带来；更深的部署与工程能力，我正有计划地补上。</p>
+    <p>FDE 这个岗位，正处在强大系统、混乱环境与需要系统跑起来的人之间。在这个夹缝里出问题的，很少是模型本身，而是某件事悄悄不再成立、却没人在盯——一个价格、一个版本号、一个安装脚本、一个半年前在会议室里做下的假设。这种故障我已经公开地经历过一次，也正是我为它做了一个检查。</p>
+
+    <p>诊断、翻译与客户沟通，我现在就能带来；更深的部署与工程能力，我正有计划地补上。</p>
     <ul class="maplist">
       <li><b>客户沟通</b> — 十年技术支持</li>
       <li><b>含糊的故障</b> — 压力下的 Genius 级诊断</li>
       <li><b>实施纪律</b> — 有记录的检查与边界清晰的部署</li>
       <li><b>智能体系统</b> — Hermes、MCP、技能、日常使用</li>
+      <li><b>悄悄不再成立的东西</b> — 每天对照 Nous 自己发布的来源检查一次</li>
       <li><b>工程深度</b> — 正在补上——学习加已上线项目</li>
     </ul>
   </section>

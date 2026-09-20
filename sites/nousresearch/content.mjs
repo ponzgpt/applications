@@ -25,8 +25,14 @@ export const links = {
   email: 'nerion89@gmail.com',
   memento: 'https://memento.technoir.cloud/',
   mementoSrc: 'https://github.com/ponzgpt/memento-mori',
-  pkm: 'https://github.com/ponzgpt/hermes-pkm-toolkit',
-  zeroth: 'https://github.com/ponzgpt/0th-hermes',
+  neuronara: 'https://neuronara.technoir.cloud/',
+  // The four Hermes repos folded into one. The old ones are archived rather
+  // than deleted, so these deep links are the maintained address now.
+  contributions: 'https://hermes-contributions.technoir.cloud/',
+  contributionsSrc: 'https://github.com/ponzgpt/hermes-contributions',
+  drift: 'https://github.com/ponzgpt/hermes-contributions/blob/main/scripts/freshness.mjs',
+  pkm: 'https://github.com/ponzgpt/hermes-contributions/tree/main/pkm-toolkit',
+  zeroth: 'https://github.com/ponzgpt/hermes-contributions/tree/main/onboarding',
   hermes: 'https://hermes-agent.nousresearch.com/',
   careers: 'https://nousresearch.com/careers/'
 };
@@ -49,7 +55,7 @@ export const content = {
     opening: [
       `I have spent ten years helping people make difficult technology work.`,
       `At Apple Retail, that meant diagnosing the problem behind the symptom, translating between technical systems and human needs, and staying with the case until the person in front of me had a working next step.`,
-      `I am now doing the same for open agents and the tools around them, and building toward forward-deployed engineering at Nous — from the support side first.`
+      `I now do the same for open agents. I use Hermes Agent every day, I build tooling around it, and when what I had published about it quietly went out of date I built the thing that catches that. I am working toward forward-deployed engineering at Nous — from the support side first.`
     ],
 
     person: { head: 'Person', sub: '— who I am', paras: [
@@ -63,30 +69,32 @@ export const content = {
       items: [
         { badge: 'Diagnosis', title: 'Find the fault', body: `Separate symptom from cause, document what has been checked, keep going until the thing works again.` },
         { badge: 'Translation', title: 'Make it usable', body: `Explain the system in terms the other person can act on. Done when they can use it, not when I understand it.` },
-        { badge: 'Agents', title: 'Run them daily', body: `Hands-on with <a class="u" href="${links.hermes}">Hermes Agent</a>, MCP, skills and Docker. Explicit context and permissions, then verify what comes back.` }
+        { badge: 'Agents', title: 'Run them daily', body: `Hands-on with <a class="u" href="${links.hermes}">Hermes Agent</a>, MCP, skills and Docker. Explicit context and permissions, then verify what comes back — and leave a check running that keeps verifying after I stop looking.` }
       ] },
 
     proof: { head: 'Proof', sub: '— built and shipped', intro: `Inspect the work rather than take my word for it.`,
       items: [
+        { badge: 'Specified · agent-built', title: 'hermes-contributions', body: `Everything I built around Hermes Agent as a heavy user, offered back: an onboarding path and the <code>0th</code> script, a front door that behaves like the CLI it describes, a field guide to model costs, and MCP skills for a local Markdown vault. It was four repositories on four hosts until I found my own field guide quoting model prices at 80% of the real ones, for weeks — the promotion I had snapshotted ended, and nothing was watching. So every fact this repository quotes from Nous now lives in one file, re-read from Nous's own endpoints on every check, every deploy, every CI run and once a day. When a number moves, the build fails and names which one, from what to what.`,
+          links: [[links.contributions, 'Live'], [links.contributionsSrc, 'Source'], [links.drift, 'The drift check']] },
         { badge: 'Shipped solo', title: 'Memento Mori', body: `Privacy-first web product — no accounts, no analytics. Plain HTML, CSS and ES modules; Docker, Nginx and Traefik behind release checks.`,
           links: [[links.memento, 'Live'], [links.mementoSrc, 'Source']] },
-        { badge: 'Specified · agent-built', title: 'Hermes PKM Toolkit', body: `MCP tools for local Markdown vaults. Path-traversal protection and tests, because file access needs a boundary I can explain.`,
-          links: [[links.pkm, 'Source']] },
-        { badge: 'Specified · agent-built', title: '0TH Hermes', body: `An onboarding path for Hermes Agent that cuts the first hour of confusion to one concrete next step.`,
-          links: [[links.zeroth, 'Source']] }
+        { badge: 'Run in production', title: 'The hosting under all of it', body: `Every site above runs on a VPS I administer, shipped by one script that refuses a dirty tree, builds on the host, starts the new Swarm task behind a <code>/healthz</code> check and only then stops the old one. Folding those four Hermes repositories into one meant archiving rather than deleting them, a redirect from every retired host, and keeping the raw <code>0th</code> URL resolving — people may have piped it into a shell. Retiring something people have automated is a change to their systems, not to mine.`,
+          links: [[links.neuronara, 'A live one'], [links.github, 'The deploy scripts']] }
       ],
-      note: `The <a class="u" href="${links.projects}">portfolio</a> labels what I wrote, deployed or built with an agent. I would rather show the line than blur it.` },
+      note: `The <a class="u" href="${links.projects}">portfolio</a> labels what I wrote, deployed or built with an agent. I would rather show the line than blur it: the repository at the top was specified by me and written with an agent, under rules I set. The judgement about what was not allowed to rot quietly is mine.` },
 
     fit: { head: 'Fit', sub: '— why Nous', paras: [
       `Nous works on the part of AI I want to help make practical: open intelligence that doesn't stay locked behind a closed surface.`,
       `Hermes and MCP make capability inspectable — a skill can be a Markdown file, a tool a server someone can actually read.`,
-      `The FDE role sits between a powerful system, a messy environment and the person who needs it to work. I bring the diagnosis, the translation and the customer contact now. The deployment and engineering depth, I'm building deliberately.`
+      `The FDE role sits between a powerful system, a messy environment and the person who needs it to work. What breaks in that gap is rarely the model. It is that something quietly stopped being true and nobody was watching — a price, a version, an installer, an assumption made in a room six months ago. That is a failure I have already had in public, and the one I built a check for.`,
+      `I bring the diagnosis, the translation and the customer contact now. The deployment and engineering depth, I'm building deliberately.`
     ],
       map: [
         ['Customer conversations', 'ten years of technical support'],
         ['Ambiguous failures', 'Genius diagnosis under pressure'],
         ['Implementation discipline', 'documented checks and bounded deployments'],
         ['Agent systems', 'Hermes, MCP, skills, daily use'],
+        ['Things that quietly stop being true', 'a drift check against Nous\'s own endpoints, daily'],
         ['Engineering depth', 'being built — study plus shipped projects']
       ] },
 
@@ -138,7 +146,7 @@ export const content = {
     opening: [
       `Llevo diez años ayudando a que la tecnología difícil funcione para la gente.`,
       `En Apple Retail eso era diagnosticar el problema detrás del síntoma, traducir entre los sistemas técnicos y las personas, y no soltar el caso hasta que quien tenía delante se iba con un paso siguiente que funcionaba.`,
-      `Ahora hago lo mismo con agentes abiertos y sus herramientas, y me preparo para la ingeniería desplegada en cliente en Nous, empezando por el soporte.`
+      `Ahora hago lo mismo con agentes abiertos. Uso Hermes Agent a diario, construyo herramientas a su alrededor y, cuando lo que yo mismo había publicado sobre él se quedó desactualizado en silencio, construí lo que lo detecta. Voy hacia la ingeniería desplegada en cliente en Nous, empezando por el soporte.`
     ],
 
     person: { head: 'Persona', sub: '— quién soy', paras: [
@@ -152,30 +160,32 @@ export const content = {
       items: [
         { badge: 'Diagnóstico', title: 'Encontrar la avería', body: `Separar síntoma de causa, dejar por escrito lo comprobado, seguir hasta que vuelva a funcionar.` },
         { badge: 'Traducción', title: 'Hacerlo usable', body: `Explicar el sistema en términos con los que la otra persona pueda actuar. Termina cuando ella puede usarlo, no cuando yo lo entiendo.` },
-        { badge: 'Agentes', title: 'Operarlos a diario', body: `A diario con <a class="u" href="${links.hermes}">Hermes Agent</a>, MCP, habilidades y Docker. Contexto y permisos explícitos, y compruebo lo que devuelven.` }
+        { badge: 'Agentes', title: 'Operarlos a diario', body: `A diario con <a class="u" href="${links.hermes}">Hermes Agent</a>, MCP, habilidades y Docker. Contexto y permisos explícitos, y compruebo lo que devuelven; y dejo funcionando una comprobación que sigue verificando cuando yo ya no miro.` }
       ] },
 
     proof: { head: 'Pruebas', sub: '— construido y publicado', intro: `Mejor revisar el trabajo que fiarse de mi palabra.`,
       items: [
+        { badge: 'Especificado · con agente', title: 'hermes-contributions', body: `Todo lo que construí alrededor de Hermes Agent como usuario intensivo, devuelto al proyecto: un camino de incorporación y el script <code>0th</code>, una portada que se comporta como la CLI que describe, una guía de campo de costes por modelo y habilidades MCP para una bóveda local de Markdown. Eran cuatro repositorios en cuatro dominios, hasta que encontré mi propia guía citando precios al 80% de los reales durante semanas: la promoción de la que había tomado la foto terminó y nadie vigilaba. Así que cada dato que este repositorio cita de Nous vive ahora en un solo fichero, releído desde las fuentes que publica Nous en cada comprobación, cada despliegue, cada ejecución de CI y una vez al día. Cuando un número se mueve, la compilación falla y dice cuál, de qué a qué.`,
+          links: [[links.contributions, 'Sitio'], [links.contributionsSrc, 'Código'], [links.drift, 'La comprobación']] },
         { badge: 'Solo', title: 'Memento Mori', body: `Producto web privado por diseño: sin cuentas, sin analítica. HTML, CSS y módulos ES; Docker, Nginx y Traefik tras comprobaciones de publicación.`,
           links: [[links.memento, 'Sitio'], [links.mementoSrc, 'Código']] },
-        { badge: 'Especificado · con agente', title: 'Hermes PKM Toolkit', body: `Herramientas MCP para bóvedas locales de Markdown. Protección contra recorrido de rutas y pruebas, porque acceder a ficheros necesita un límite que pueda explicar.`,
-          links: [[links.pkm, 'Código']] },
-        { badge: 'Especificado · con agente', title: '0TH Hermes', body: `Un camino de incorporación para Hermes Agent que recorta la primera hora de confusión a un siguiente paso concreto.`,
-          links: [[links.zeroth, 'Código']] }
+        { badge: 'En producción', title: 'La infraestructura que lo sostiene', body: `Todo lo de arriba corre en un VPS que administro yo, publicado por un único script que rechaza un árbol sucio, compila en el propio servidor, arranca la nueva tarea de Swarm detrás de una comprobación <code>/healthz</code> y solo entonces para la anterior. Plegar aquellos cuatro repositorios en uno significó archivarlos en vez de borrarlos, una redirección desde cada dominio retirado, y mantener viva la URL cruda de <code>0th</code>: puede haber quien la haya metido en una tubería de shell. Retirar algo que otros han automatizado es un cambio en los sistemas de ellos, no en los míos.`,
+          links: [[links.neuronara, 'Uno en vivo'], [links.github, 'Los scripts de despliegue']] }
       ],
-      note: `El <a class="u" href="${links.projects}">portafolio</a> indica qué escribí, desplegué o construí con un agente. Prefiero mostrar el límite que difuminarlo.` },
+      note: `El <a class="u" href="${links.projects}">portafolio</a> indica qué escribí, desplegué o construí con un agente. Prefiero mostrar el límite que difuminarlo: el repositorio de arriba lo especifiqué yo y lo escribió un agente, con las reglas que puse yo. El criterio sobre qué no podía pudrirse en silencio es mío.` },
 
     fit: { head: 'Encaje', sub: '— por qué Nous', paras: [
       `Nous trabaja en la parte de la IA que quiero ayudar a hacer práctica: inteligencia abierta que no se queda encerrada tras una superficie cerrada.`,
       `Hermes y MCP hacen la capacidad inspeccionable: una habilidad puede ser un fichero Markdown, una herramienta un servidor que cualquiera puede leer.`,
-      `El puesto de FDE está entre un sistema potente, un entorno desordenado y la persona que necesita que funcione. Hoy aporto el diagnóstico, la traducción y el trato con el cliente. La profundidad de despliegue e ingeniería la estoy construyendo a propósito.`
+      `El puesto de FDE está entre un sistema potente, un entorno desordenado y la persona que necesita que funcione. Lo que se rompe en ese hueco casi nunca es el modelo: es que algo dejó de ser cierto en silencio y nadie vigilaba — un precio, una versión, un instalador, una suposición hecha en una sala hace seis meses. Ese fallo ya lo he tenido en público, y es para el que construí una comprobación.`,
+      `Hoy aporto el diagnóstico, la traducción y el trato con el cliente. La profundidad de despliegue e ingeniería la estoy construyendo a propósito.`
     ],
       map: [
         ['Conversaciones con clientes', 'diez años de soporte técnico'],
         ['Fallos ambiguos', 'diagnóstico de Genius bajo presión'],
         ['Disciplina de implantación', 'comprobaciones documentadas y despliegues acotados'],
         ['Sistemas de agentes', 'Hermes, MCP, habilidades, uso diario'],
+        ['Lo que deja de ser cierto en silencio', 'una comprobación diaria contra lo que publica Nous'],
         ['Profundidad de ingeniería', 'en construcción — estudios y proyectos publicados']
       ] },
 
@@ -227,7 +237,7 @@ export const content = {
     opening: [
       `过去十年，我一直在帮助人们让复杂的技术真正运转起来。`,
       `在 Apple Retail，这意味着找出症状背后的问题，在技术系统与人之间做翻译，一直跟进到对方拿到一个可行的下一步。`,
-      `现在我把同样的事情用在开放智能体和它周边的工具上，也在为在 Nous 从事前置部署工程做准备——先从支持这一端做起。`
+      `现在我把同样的事情用在开放智能体上。我每天使用 Hermes Agent，围绕它做工具；当我自己发布的内容悄悄过期时，我做了那个能发现它的东西。我正朝着在 Nous 从事前置部署工程努力——先从支持这一端做起。`
     ],
 
     person: { head: '其人', sub: '— 我是谁', paras: [
@@ -241,30 +251,32 @@ export const content = {
       items: [
         { badge: '诊断', title: '找到故障', body: `区分症状与原因，记录已检查的内容，坚持到问题重新可用。` },
         { badge: '翻译', title: '让它能用', body: `用对方能据此行动的语言解释系统。结束的标志是对方能用，而不是我懂了。` },
-        { badge: '智能体', title: '每天运维', body: `日常使用 <a class="u" href="${links.hermes}">Hermes Agent</a>、MCP、技能和 Docker。给出明确的上下文与权限，再核验结果。` }
+        { badge: '智能体', title: '每天运维', body: `日常使用 <a class="u" href="${links.hermes}">Hermes Agent</a>、MCP、技能和 Docker。给出明确的上下文与权限，再核验结果；并留下一个在我不再盯着之后仍然持续核验的检查。` }
       ] },
 
     proof: { head: '证据', sub: '— 已构建并上线', intro: `与其听我说，不如直接看做过的东西。`,
       items: [
+        { badge: '制定规格 · 智能体编写', title: 'hermes-contributions', body: `作为重度用户，我围绕 Hermes Agent 做的一切，回馈给这个项目：一条上手路径和 <code>0th</code> 脚本、一个行为像它所描述的 CLI 的首页、一份按模型算钱的实用指南，以及面向本地 Markdown 知识库的 MCP 技能。它原本是四个仓库、四个域名——直到我发现自己那份指南引用的模型价格只有真实价格的 80%，而且已经这样好几周：我当初截取的那次促销结束了，却没有任何东西在盯着。于是这个仓库引用自 Nous 的每一个数据，现在都只存在一个文件里，并在每次检查、每次部署、每次 CI 运行以及每天一次，从 Nous 自己发布的来源重新读取。数字一变，构建就失败，并说明是哪一个、从多少变成了多少。`,
+          links: [[links.contributions, '网站'], [links.contributionsSrc, '源代码'], [links.drift, '这个检查']] },
         { badge: '独立完成', title: 'Memento Mori', body: `从设计上注重隐私的 Web 产品——没有账户、没有统计。纯 HTML、CSS 和 ES 模块；Docker、Nginx、Traefik，带发布检查。`,
           links: [[links.memento, '网站'], [links.mementoSrc, '源代码']] },
-        { badge: '制定规格 · 智能体编写', title: 'Hermes PKM Toolkit', body: `面向本地 Markdown 知识库的 MCP 工具。带路径穿越防护和测试，因为访问文件需要一条我能解释清楚的边界。`,
-          links: [[links.pkm, '源代码']] },
-        { badge: '制定规格 · 智能体编写', title: '0TH Hermes', body: `把 Hermes Agent 上手时第一小时的困惑，压缩成一个具体的下一步。`,
-          links: [[links.zeroth, '源代码']] }
+        { badge: '生产环境运行', title: '支撑这一切的服务器', body: `上面每个站点都跑在我自己管理的 VPS 上，由同一个脚本发布：工作区不干净就拒绝，在服务器上构建，把新的 Swarm 任务放在 <code>/healthz</code> 检查后面启动，确认无误才停掉旧的。把那四个仓库合成一个，意味着归档而不是删除、每个退役域名都做重定向，并让 <code>0th</code> 的原始 URL 继续可用——可能有人把它接进了 shell 管道。下线一个别人已经自动化的东西，改动的是他们的系统，不是我的。`,
+          links: [[links.neuronara, '看一个在线的'], [links.github, '部署脚本']] }
       ],
-      note: `${'<a class="u" href="' + links.projects + '">作品集</a>'}标明了哪些是我编写、部署或借助智能体构建的。我宁愿亮出边界，也不愿模糊它。` },
+      note: `${'<a class="u" href="' + links.projects + '">作品集</a>'}标明了哪些是我编写、部署或借助智能体构建的。我宁愿亮出边界，也不愿模糊它：上面那个仓库由我制定规格、按我定的规则由智能体编写；至于什么不允许悄悄腐烂，那是我的判断。` },
 
     fit: { head: '契合', sub: '— 为什么是 Nous', paras: [
       `Nous 在做我想帮忙落地的那部分 AI：不被锁在封闭产品界面之后的开放智能。`,
       `Hermes 与 MCP 让能力变得可检视——技能可以是一个 Markdown 文件，工具可以是一个任何人都能读懂的服务。`,
-      `FDE 这个岗位，正处在强大系统、混乱环境与需要系统跑起来的人之间。诊断、翻译与客户沟通，我现在就能带来；更深的部署与工程能力，我正有计划地补上。`
+      `FDE 这个岗位，正处在强大系统、混乱环境与需要系统跑起来的人之间。在这个夹缝里出问题的，很少是模型本身，而是某件事悄悄不再成立、却没人在盯——一个价格、一个版本号、一个安装脚本、一个半年前在会议室里做下的假设。这种故障我已经公开地经历过一次，也正是我为它做了一个检查。`,
+      `诊断、翻译与客户沟通，我现在就能带来；更深的部署与工程能力，我正有计划地补上。`
     ],
       map: [
         ['客户沟通', '十年技术支持'],
         ['含糊的故障', '压力下的 Genius 级诊断'],
         ['实施纪律', '有记录的检查与边界清晰的部署'],
         ['智能体系统', 'Hermes、MCP、技能、日常使用'],
+        ['悄悄不再成立的东西', '每天对照 Nous 自己发布的来源检查一次'],
         ['工程深度', '正在补上——学习加已上线项目']
       ] },
 

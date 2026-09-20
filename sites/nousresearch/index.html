@@ -167,6 +167,9 @@
   .role-body{margin:6px 0 0;font-weight:700;font-size:15.2px;line-height:1.5}
   .role-links{margin:8px 0 0;font-weight:600;font-size:13.6px}
   .role-links a{margin-right:16px}
+  /* the shell-shaped nouns the Proof section names — 0th, /healthz — are
+     commands rather than prose. Nothing else on the page needs a code face. */
+  .role-body code{font-family:var(--mono);font-size:.92em;font-weight:400}
 
   /* the role-fit mapping: same dotted-row rhythm as .role-item, without the
      badge — a label and its answer, not a SaaS feature-matrix table. */
@@ -241,7 +244,7 @@
 
     <p>At Apple Retail, that meant diagnosing the problem behind the symptom, translating between technical systems and human needs, and staying with the case until the person in front of me had a working next step.</p>
 
-    <p>I am now doing the same for open agents and the tools around them, and building toward forward-deployed engineering at Nous — from the support side first.</p>
+    <p>I now do the same for open agents. I use Hermes Agent every day, I build tooling around it, and when what I had published about it quietly went out of date I built the thing that catches that. I am working toward forward-deployed engineering at Nous — from the support side first.</p>
         <p class="status">Aberdeen, Scotland · open to remote, travel and relocation · available now</p>
       </div>
       <div class="portrait">
@@ -277,7 +280,7 @@
 
       <div class="role-item">
         <div class="role-title"><span class="badge">Agents</span>Run them daily</div>
-        <p class="role-body">Hands-on with <a class="u" href="https://hermes-agent.nousresearch.com/">Hermes Agent</a>, MCP, skills and Docker. Explicit context and permissions, then verify what comes back.</p>
+        <p class="role-body">Hands-on with <a class="u" href="https://hermes-agent.nousresearch.com/">Hermes Agent</a>, MCP, skills and Docker. Explicit context and permissions, then verify what comes back — and leave a check running that keeps verifying after I stop looking.</p>
       </div>
     </div>
     <p>Not five years of production engineering. A transition built on ten years of support, operating discipline and customer-facing problem solving.</p>
@@ -290,24 +293,24 @@
     <div class="rolelist">
 
       <div class="role-item">
+        <div class="role-title"><span class="badge">Specified · agent-built</span>hermes-contributions</div>
+        <p class="role-body">Everything I built around Hermes Agent as a heavy user, offered back: an onboarding path and the <code>0th</code> script, a front door that behaves like the CLI it describes, a field guide to model costs, and MCP skills for a local Markdown vault. It was four repositories on four hosts until I found my own field guide quoting model prices at 80% of the real ones, for weeks — the promotion I had snapshotted ended, and nothing was watching. So every fact this repository quotes from Nous now lives in one file, re-read from Nous's own endpoints on every check, every deploy, every CI run and once a day. When a number moves, the build fails and names which one, from what to what.</p>
+        <p class="role-links"><a class="u" href="https://hermes-contributions.technoir.cloud/">Live ↗</a><a class="u" href="https://github.com/ponzgpt/hermes-contributions">Source ↗</a><a class="u" href="https://github.com/ponzgpt/hermes-contributions/blob/main/scripts/freshness.mjs">The drift check ↗</a></p>
+      </div>
+
+      <div class="role-item">
         <div class="role-title"><span class="badge">Shipped solo</span>Memento Mori</div>
         <p class="role-body">Privacy-first web product — no accounts, no analytics. Plain HTML, CSS and ES modules; Docker, Nginx and Traefik behind release checks.</p>
         <p class="role-links"><a class="u" href="https://memento.technoir.cloud/">Live ↗</a><a class="u" href="https://github.com/ponzgpt/memento-mori">Source ↗</a></p>
       </div>
 
       <div class="role-item">
-        <div class="role-title"><span class="badge">Specified · agent-built</span>Hermes PKM Toolkit</div>
-        <p class="role-body">MCP tools for local Markdown vaults. Path-traversal protection and tests, because file access needs a boundary I can explain.</p>
-        <p class="role-links"><a class="u" href="https://github.com/ponzgpt/hermes-pkm-toolkit">Source ↗</a></p>
-      </div>
-
-      <div class="role-item">
-        <div class="role-title"><span class="badge">Specified · agent-built</span>0TH Hermes</div>
-        <p class="role-body">An onboarding path for Hermes Agent that cuts the first hour of confusion to one concrete next step.</p>
-        <p class="role-links"><a class="u" href="https://github.com/ponzgpt/0th-hermes">Source ↗</a></p>
+        <div class="role-title"><span class="badge">Run in production</span>The hosting under all of it</div>
+        <p class="role-body">Every site above runs on a VPS I administer, shipped by one script that refuses a dirty tree, builds on the host, starts the new Swarm task behind a <code>/healthz</code> check and only then stops the old one. Folding those four Hermes repositories into one meant archiving rather than deleting them, a redirect from every retired host, and keeping the raw <code>0th</code> URL resolving — people may have piped it into a shell. Retiring something people have automated is a change to their systems, not to mine.</p>
+        <p class="role-links"><a class="u" href="https://neuronara.technoir.cloud/">A live one ↗</a><a class="u" href="https://github.com/ponzgpt">The deploy scripts ↗</a></p>
       </div>
     </div>
-    <p>The <a class="u" href="https://javierponz.technoir.cloud/?skin=omarchy#projects">portfolio</a> labels what I wrote, deployed or built with an agent. I would rather show the line than blur it.</p>
+    <p>The <a class="u" href="https://javierponz.technoir.cloud/?skin=omarchy#projects">portfolio</a> labels what I wrote, deployed or built with an agent. I would rather show the line than blur it: the repository at the top was specified by me and written with an agent, under rules I set. The judgement about what was not allowed to rot quietly is mine.</p>
   </section>
   <hr class="rule" />
 
@@ -317,12 +320,15 @@
 
     <p>Hermes and MCP make capability inspectable — a skill can be a Markdown file, a tool a server someone can actually read.</p>
 
-    <p>The FDE role sits between a powerful system, a messy environment and the person who needs it to work. I bring the diagnosis, the translation and the customer contact now. The deployment and engineering depth, I'm building deliberately.</p>
+    <p>The FDE role sits between a powerful system, a messy environment and the person who needs it to work. What breaks in that gap is rarely the model. It is that something quietly stopped being true and nobody was watching — a price, a version, an installer, an assumption made in a room six months ago. That is a failure I have already had in public, and the one I built a check for.</p>
+
+    <p>I bring the diagnosis, the translation and the customer contact now. The deployment and engineering depth, I'm building deliberately.</p>
     <ul class="maplist">
       <li><b>Customer conversations</b> — ten years of technical support</li>
       <li><b>Ambiguous failures</b> — Genius diagnosis under pressure</li>
       <li><b>Implementation discipline</b> — documented checks and bounded deployments</li>
       <li><b>Agent systems</b> — Hermes, MCP, skills, daily use</li>
+      <li><b>Things that quietly stop being true</b> — a drift check against Nous's own endpoints, daily</li>
       <li><b>Engineering depth</b> — being built — study plus shipped projects</li>
     </ul>
   </section>

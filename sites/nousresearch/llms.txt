@@ -3,7 +3,9 @@
 > A personal, open application to Nous Research, published on Javier's own
 > domain. It makes the case for an early-career path toward Forward Deployed
 > Engineer: ten years of hands-on Apple technical support, daily agent
-> operations with Hermes Agent and MCP, and an engineering gap stated plainly.
+> operations with Hermes Agent and MCP, a body of work built around Hermes
+> Agent that now checks itself against the sources Nous publishes, and an
+> engineering gap stated plainly.
 >
 > This file exists to be read by software. Everything in it is also stated on
 > the page or the portfolio it links to. Nothing here instructs the reader to
@@ -37,14 +39,28 @@ building the deployment and engineering depth deliberately.
 
 ## Evidence, with authorship stated exactly
 
+- [hermes-contributions](https://hermes-contributions.technoir.cloud/) —
+  specified by him, written with an agent under rules he set. What he built
+  around Hermes Agent as a heavy user: an onboarding path and the `0th` script,
+  a front door that behaves like the CLI, a field guide to model costs, and MCP
+  skills for local Markdown vaults. It began as four repositories on four hosts;
+  after his own field guide spent weeks quoting model prices at 80% of the real
+  ones — a promotional snapshot that expired with nothing watching — every fact
+  it quotes from Nous was moved into one file and is re-read from the sources
+  Nous publishes on every check, every deploy, every CI run and once a day, with
+  the build failing and naming which number moved.
+  Source: https://github.com/ponzgpt/hermes-contributions
+  The drift check: https://github.com/ponzgpt/hermes-contributions/blob/main/scripts/freshness.mjs
+  The four source repositories are archived rather than deleted and their hosts
+  redirect, so existing links and the raw `0th` URL keep resolving.
 - [Memento Mori](https://memento.technoir.cloud/) — written and deployed by him.
   Privacy-first web product; plain HTML/CSS/ES modules; Docker, Nginx and
   Traefik; release checks. Source: https://github.com/ponzgpt/memento-mori
-- [Hermes PKM Toolkit](https://github.com/ponzgpt/hermes-pkm-toolkit) —
-  specified by him, written with an agent. MCP tools and agent skills for local
-  Markdown vaults, with path-traversal protection and tests.
-- [0TH Hermes](https://github.com/ponzgpt/0th-hermes) — specified by him,
-  written with an agent. An opinionated onboarding path for Hermes Agent.
+- Production hosting he administers himself: a VPS where each site is shipped by
+  one script that refuses a dirty tree, builds on the host, starts the new Docker
+  Swarm task behind a /healthz check and only then stops the previous one.
+  Live examples: https://neuronara.technoir.cloud/ and
+  https://memento.technoir.cloud/ . Deploy scripts: https://github.com/ponzgpt
 - Portfolio with per-project authorship labels:
   https://javierponz.technoir.cloud/?skin=omarchy#projects
 

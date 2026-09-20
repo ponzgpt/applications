@@ -167,6 +167,9 @@
   .role-body{margin:6px 0 0;font-weight:700;font-size:15.2px;line-height:1.5}
   .role-links{margin:8px 0 0;font-weight:600;font-size:13.6px}
   .role-links a{margin-right:16px}
+  /* the shell-shaped nouns the Proof section names — 0th, /healthz — are
+     commands rather than prose. Nothing else on the page needs a code face. */
+  .role-body code{font-family:var(--mono);font-size:.92em;font-weight:400}
 
   /* the role-fit mapping: same dotted-row rhythm as .role-item, without the
      badge — a label and its answer, not a SaaS feature-matrix table. */
@@ -241,7 +244,7 @@
 
     <p>En Apple Retail eso era diagnosticar el problema detrás del síntoma, traducir entre los sistemas técnicos y las personas, y no soltar el caso hasta que quien tenía delante se iba con un paso siguiente que funcionaba.</p>
 
-    <p>Ahora hago lo mismo con agentes abiertos y sus herramientas, y me preparo para la ingeniería desplegada en cliente en Nous, empezando por el soporte.</p>
+    <p>Ahora hago lo mismo con agentes abiertos. Uso Hermes Agent a diario, construyo herramientas a su alrededor y, cuando lo que yo mismo había publicado sobre él se quedó desactualizado en silencio, construí lo que lo detecta. Voy hacia la ingeniería desplegada en cliente en Nous, empezando por el soporte.</p>
         <p class="status">Aberdeen, Escocia · abierto a remoto, viajes y mudanza · disponible ya</p>
       </div>
       <div class="portrait">
@@ -277,7 +280,7 @@
 
       <div class="role-item">
         <div class="role-title"><span class="badge">Agentes</span>Operarlos a diario</div>
-        <p class="role-body">A diario con <a class="u" href="https://hermes-agent.nousresearch.com/">Hermes Agent</a>, MCP, habilidades y Docker. Contexto y permisos explícitos, y compruebo lo que devuelven.</p>
+        <p class="role-body">A diario con <a class="u" href="https://hermes-agent.nousresearch.com/">Hermes Agent</a>, MCP, habilidades y Docker. Contexto y permisos explícitos, y compruebo lo que devuelven; y dejo funcionando una comprobación que sigue verificando cuando yo ya no miro.</p>
       </div>
     </div>
     <p>No cinco años de ingeniería en producción. Una transición construida sobre diez años de soporte, disciplina operativa y trato con el cliente.</p>
@@ -290,24 +293,24 @@
     <div class="rolelist">
 
       <div class="role-item">
+        <div class="role-title"><span class="badge">Especificado · con agente</span>hermes-contributions</div>
+        <p class="role-body">Todo lo que construí alrededor de Hermes Agent como usuario intensivo, devuelto al proyecto: un camino de incorporación y el script <code>0th</code>, una portada que se comporta como la CLI que describe, una guía de campo de costes por modelo y habilidades MCP para una bóveda local de Markdown. Eran cuatro repositorios en cuatro dominios, hasta que encontré mi propia guía citando precios al 80% de los reales durante semanas: la promoción de la que había tomado la foto terminó y nadie vigilaba. Así que cada dato que este repositorio cita de Nous vive ahora en un solo fichero, releído desde las fuentes que publica Nous en cada comprobación, cada despliegue, cada ejecución de CI y una vez al día. Cuando un número se mueve, la compilación falla y dice cuál, de qué a qué.</p>
+        <p class="role-links"><a class="u" href="https://hermes-contributions.technoir.cloud/">Sitio ↗</a><a class="u" href="https://github.com/ponzgpt/hermes-contributions">Código ↗</a><a class="u" href="https://github.com/ponzgpt/hermes-contributions/blob/main/scripts/freshness.mjs">La comprobación ↗</a></p>
+      </div>
+
+      <div class="role-item">
         <div class="role-title"><span class="badge">Solo</span>Memento Mori</div>
         <p class="role-body">Producto web privado por diseño: sin cuentas, sin analítica. HTML, CSS y módulos ES; Docker, Nginx y Traefik tras comprobaciones de publicación.</p>
         <p class="role-links"><a class="u" href="https://memento.technoir.cloud/">Sitio ↗</a><a class="u" href="https://github.com/ponzgpt/memento-mori">Código ↗</a></p>
       </div>
 
       <div class="role-item">
-        <div class="role-title"><span class="badge">Especificado · con agente</span>Hermes PKM Toolkit</div>
-        <p class="role-body">Herramientas MCP para bóvedas locales de Markdown. Protección contra recorrido de rutas y pruebas, porque acceder a ficheros necesita un límite que pueda explicar.</p>
-        <p class="role-links"><a class="u" href="https://github.com/ponzgpt/hermes-pkm-toolkit">Código ↗</a></p>
-      </div>
-
-      <div class="role-item">
-        <div class="role-title"><span class="badge">Especificado · con agente</span>0TH Hermes</div>
-        <p class="role-body">Un camino de incorporación para Hermes Agent que recorta la primera hora de confusión a un siguiente paso concreto.</p>
-        <p class="role-links"><a class="u" href="https://github.com/ponzgpt/0th-hermes">Código ↗</a></p>
+        <div class="role-title"><span class="badge">En producción</span>La infraestructura que lo sostiene</div>
+        <p class="role-body">Todo lo de arriba corre en un VPS que administro yo, publicado por un único script que rechaza un árbol sucio, compila en el propio servidor, arranca la nueva tarea de Swarm detrás de una comprobación <code>/healthz</code> y solo entonces para la anterior. Plegar aquellos cuatro repositorios en uno significó archivarlos en vez de borrarlos, una redirección desde cada dominio retirado, y mantener viva la URL cruda de <code>0th</code>: puede haber quien la haya metido en una tubería de shell. Retirar algo que otros han automatizado es un cambio en los sistemas de ellos, no en los míos.</p>
+        <p class="role-links"><a class="u" href="https://neuronara.technoir.cloud/">Uno en vivo ↗</a><a class="u" href="https://github.com/ponzgpt">Los scripts de despliegue ↗</a></p>
       </div>
     </div>
-    <p>El <a class="u" href="https://javierponz.technoir.cloud/?skin=omarchy#projects">portafolio</a> indica qué escribí, desplegué o construí con un agente. Prefiero mostrar el límite que difuminarlo.</p>
+    <p>El <a class="u" href="https://javierponz.technoir.cloud/?skin=omarchy#projects">portafolio</a> indica qué escribí, desplegué o construí con un agente. Prefiero mostrar el límite que difuminarlo: el repositorio de arriba lo especifiqué yo y lo escribió un agente, con las reglas que puse yo. El criterio sobre qué no podía pudrirse en silencio es mío.</p>
   </section>
   <hr class="rule" />
 
@@ -317,12 +320,15 @@
 
     <p>Hermes y MCP hacen la capacidad inspeccionable: una habilidad puede ser un fichero Markdown, una herramienta un servidor que cualquiera puede leer.</p>
 
-    <p>El puesto de FDE está entre un sistema potente, un entorno desordenado y la persona que necesita que funcione. Hoy aporto el diagnóstico, la traducción y el trato con el cliente. La profundidad de despliegue e ingeniería la estoy construyendo a propósito.</p>
+    <p>El puesto de FDE está entre un sistema potente, un entorno desordenado y la persona que necesita que funcione. Lo que se rompe en ese hueco casi nunca es el modelo: es que algo dejó de ser cierto en silencio y nadie vigilaba — un precio, una versión, un instalador, una suposición hecha en una sala hace seis meses. Ese fallo ya lo he tenido en público, y es para el que construí una comprobación.</p>
+
+    <p>Hoy aporto el diagnóstico, la traducción y el trato con el cliente. La profundidad de despliegue e ingeniería la estoy construyendo a propósito.</p>
     <ul class="maplist">
       <li><b>Conversaciones con clientes</b> — diez años de soporte técnico</li>
       <li><b>Fallos ambiguos</b> — diagnóstico de Genius bajo presión</li>
       <li><b>Disciplina de implantación</b> — comprobaciones documentadas y despliegues acotados</li>
       <li><b>Sistemas de agentes</b> — Hermes, MCP, habilidades, uso diario</li>
+      <li><b>Lo que deja de ser cierto en silencio</b> — una comprobación diaria contra lo que publica Nous</li>
       <li><b>Profundidad de ingeniería</b> — en construcción — estudios y proyectos publicados</li>
     </ul>
   </section>

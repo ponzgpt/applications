@@ -171,6 +171,9 @@ const styles = `
   .role-body{margin:6px 0 0;font-weight:700;font-size:15.2px;line-height:1.5}
   .role-links{margin:8px 0 0;font-weight:600;font-size:13.6px}
   .role-links a{margin-right:16px}
+  /* the shell-shaped nouns the Proof section names — 0th, /healthz — are
+     commands rather than prose. Nothing else on the page needs a code face. */
+  .role-body code{font-family:var(--mono);font-size:.92em;font-weight:400}
 
   /* the role-fit mapping: same dotted-row rhythm as .role-item, without the
      badge — a label and its answer, not a SaaS feature-matrix table. */

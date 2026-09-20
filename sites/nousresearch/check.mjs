@@ -7,7 +7,10 @@ import assert from 'node:assert/strict';
 const pages = ['index.html', 'es/index.html', 'zh/index.html'];
 const sources = [...pages, 'llms.txt', 'build-cover-letter.mjs', 'content.mjs'];
 
-const banned = [/5090/, /cambridge/i, /\bCAE\b/, /consultanc/i, /consultora/i, /咨询/, /stormlight/i,
+// hermes.technoir.cloud answered 404 on every path on 2026-09-20: a dead host
+// on a page whose lead project is a rot detector would be the worst possible
+// link to ship. hermes-contributions.technoir.cloud is the live one.
+const banned = [/\bhermes\.technoir\.cloud/, /5090/, /cambridge/i, /\bCAE\b/, /consultanc/i, /consultora/i, /咨询/, /stormlight/i,
   /journey before destination/i, /tony simons/i, /\bfounder\b/i, /Who—/, /more than once/i,
   /empowering/i, /revolutionary/i, /seamless/i, /cutting-edge/i, /at the intersection of/i,
   /application was sent/i, /already attached/i];
@@ -23,6 +26,10 @@ for (const f of pages) {
     assert.ok(html.includes(`id="${id}"`), `${f}: missing section #${id}`);
   const proofSection = html.split('id="proof"')[1].split('id="fit"')[0];
   assert.equal((proofSection.match(/class="role-item"/g) || []).length, 3, `${f}: expected exactly three proof items`);
+  // The most Nous-relevant evidence has to be the first thing a reviewer meets.
+  assert.ok(proofSection.split('class="role-item"')[1].includes('hermes-contributions'),
+    `${f}: hermes-contributions must lead the proof section`);
+  assert.ok(html.includes('https://hermes-contributions.technoir.cloud/'), `${f}: lead project not linked`);
   assert.ok(html.includes('javier-sketch.jpg'), `${f}: portrait missing`);
   assert.ok(/\.navbar\{position:sticky/.test(html), `${f}: navbar must be sticky`);
 }
