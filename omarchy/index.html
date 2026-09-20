@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="en-GB" data-theme="tokyo-night">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Javier Ponz — an application to 37signals, by way of Omarchy</title>
+<meta name="description" content="An unaffiliated application to 37signals from Javier Ponz: ten years of Apple technical support, small finished software in production on a VPS he administers, and Omarchy as his daily machine." />
+<link rel="canonical" href="https://omarchy.technoir.cloud/" />
+<meta name="author" content="Javier Ponz" />
+<meta property="og:title" content="Javier Ponz — an application to 37signals, by way of Omarchy" />
+<meta property="og:description" content="Ten years on the other end of the support email, and a machine I own. An unaffiliated application, in the idiom of the OS you incubated." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://omarchy.technoir.cloud/" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" />
+<style>
+  /* ────────────────────────────────────────────────────────────────────────
+     A tiling desktop, rendered as a page.
+
+     Aesthetic equivalence, not imitation: Omarchy is Arch + Hyprland, and what
+     you see of it all day is a bar at the top, panes with gaps and rounded
+     borders, and a monospace face everywhere. That is the whole visual idea
+     here. No Omarchy logo, no Omarchy code, no Omarchy assets.
+
+     The palettes below are the upstream projects' own — Tokyo Night,
+     Catppuccin Mocha, Gruvbox, Nord — which Omarchy ships themes for. They are
+     reproduced from those projects, not from Omarchy's theme files, and the
+     switcher is a nod to changing theme system-wide, not a port of it.
+
+     No build step, on purpose. One file, plain CSS, ~30 lines of JavaScript
+     that the page works fine without.
+     ──────────────────────────────────────────────────────────────────────── */
+
+  :root[data-theme="tokyo-night"]{
+    --bg:#1a1b26; --pane:#1f2030; --fg:#a9b1d6; --dim:#787c99;
+    --line:#2f3549; --accent:#7aa2f7; --ok:#9ece6a; --warn:#e0af68; --hot:#f7768e; --alt:#ad8ee6;
+  }
+  :root[data-theme="catppuccin"]{
+    --bg:#1e1e2e; --pane:#232336; --fg:#cdd6f4; --dim:#9399b2;
+    --line:#313244; --accent:#89b4fa; --ok:#a6e3a1; --warn:#f9e2af; --hot:#f38ba8; --alt:#cba6f7;
+  }
+  :root[data-theme="gruvbox"]{
+    --bg:#282828; --pane:#32302f; --fg:#ebdbb2; --dim:#a89984;
+    --line:#3c3836; --accent:#83a598; --ok:#b8bb26; --warn:#fabd2f; --hot:#fb4934; --alt:#d3869b;
+  }
+  :root[data-theme="nord"]{
+    --bg:#2e3440; --pane:#343b48; --fg:#d8dee9; --dim:#8b95a7;
+    --line:#3f4756; --accent:#88c0d0; --ok:#a3be8c; --warn:#ebcb8b; --hot:#bf616a; --alt:#b48ead;
+  }
+
+  *{box-sizing:border-box}
+  html{background:var(--bg);color:var(--fg);-webkit-text-size-adjust:100%}
+  body{
+    margin:0;
+    font-family:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    font-size:15px; line-height:1.62; letter-spacing:-.01em;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--accent);color:var(--bg)}
+  a{color:var(--accent);text-underline-offset:3px}
+  a:hover{color:var(--fg)}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+  h1,h2,h3{font-weight:700;letter-spacing:-.03em;margin:0}
+
+  .shell{width:min(100% - 32px,980px);margin:0 auto}
+
+  /* ── the bar ─────────────────────────────────────────────────────────── */
+  .bar{position:sticky;top:0;z-index:30;background:var(--bg);border-bottom:1px solid var(--line)}
+  .bar .shell{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 0;flex-wrap:wrap}
+  .ws{display:flex;gap:5px;flex-wrap:wrap;margin:0;padding:0;list-style:none}
+  .ws a{
+    display:inline-block;padding:2px 9px;border-radius:6px;border:1px solid transparent;
+    font-size:12.5px;font-weight:500;color:var(--dim);text-decoration:none;
+  }
+  .ws a:hover,.ws a:focus-visible{color:var(--bg);background:var(--accent);border-color:var(--accent)}
+  .ws a .n{opacity:.6;margin-right:5px}
+  .status{display:flex;align-items:center;gap:10px;font-size:12.5px;color:var(--dim);flex-wrap:wrap}
+  .status .sep{opacity:.4}
+  .status .live{color:var(--ok)}
+  .themes{display:flex;gap:4px}
+  .themes button{
+    font:inherit;font-size:11.5px;cursor:pointer;padding:2px 7px;border-radius:6px;
+    background:transparent;color:var(--dim);border:1px solid var(--line);
+  }
+  .themes button:hover{color:var(--fg)}
+  .themes button[aria-pressed="true"]{color:var(--bg);background:var(--fg);border-color:var(--fg)}
+
+  /* ── panes ───────────────────────────────────────────────────────────── */
+  main{padding:14px 0 0}
+  .pane{
+    background:var(--pane);border:1px solid var(--line);border-radius:10px;
+    margin:0 0 14px;overflow:hidden;
+  }
+  .pane > h2, .pane > .titlebar{
+    display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;
+    padding:9px 16px;border-bottom:1px solid var(--line);
+    font-size:12.5px;font-weight:500;letter-spacing:0;color:var(--dim);
+  }
+  .pane > h2 .path{color:var(--accent)}
+  .pane > h2 .tag{color:var(--dim);opacity:.8}
+  .body{padding:20px 16px 22px}
+  .body > *:first-child{margin-top:0}
+  .body > *:last-child{margin-bottom:0}
+  p{margin:0 0 14px;max-width:72ch}
+  .dim{color:var(--dim)}
+
+  /* ── lede ────────────────────────────────────────────────────────────── */
+  .prompt{padding:16px 16px 0;font-size:13px;color:var(--dim)}
+  .prompt .u{color:var(--ok)}
+  .prompt .p{color:var(--accent)}
+  .prompt .c{color:var(--fg)}
+  .lede h1{font-size:clamp(25px,4.4vw,42px);line-height:1.12;max-width:20ch;margin:0 0 18px}
+  .lede p{font-size:clamp(15px,1.5vw,17px)}
+  .lede .kicker{color:var(--warn)}
+
+  /* ── lists and grids ─────────────────────────────────────────────────── */
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin:0}
+  .card{border:1px solid var(--line);border-radius:8px;padding:14px}
+  .card h3{font-size:15px;margin:0 0 7px}
+  .card .badge{display:block;font-size:11px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:var(--alt);margin:0 0 8px}
+  .card p{font-size:13.5px;margin:0;color:var(--fg)}
+
+  .items{list-style:none;margin:0;padding:0}
+  .items > li{border-top:1px solid var(--line);padding:15px 0 0;margin:15px 0 0}
+  .items > li:first-child{border-top:0;padding-top:0;margin-top:0}
+  .items h3{font-size:15.5px;margin:0 0 6px}
+  .items .badge{font-size:11px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:var(--alt);margin:0 0 6px;display:block}
+  .items p{font-size:13.5px;margin:0 0 9px}
+  .out{display:flex;flex-wrap:wrap;gap:8px}
+  .out a{
+    display:inline-block;padding:4px 11px;border:1px solid var(--line);border-radius:6px;
+    font-size:12.5px;text-decoration:none;
+  }
+  .out a:hover{border-color:var(--accent);color:var(--accent)}
+
+  /* map: doctrine line → what already exists. Two columns that stack. */
+  .map{list-style:none;margin:0;padding:0}
+  .map li{display:grid;grid-template-columns:minmax(0,15.5rem) 1fr;gap:6px 20px;padding:11px 0;border-top:1px dashed var(--line)}
+  .map li:first-child{border-top:0;padding-top:0}
+  .map .k{color:var(--ok);font-weight:500;font-size:13.5px}
+  .map .v{font-size:13.5px;color:var(--fg)}
+  @media (max-width:680px){ .map li{grid-template-columns:1fr;gap:3px} }
+
+  .ledger{list-style:none;margin:0;padding:0;font-size:13.5px}
+  .ledger li{padding:8px 0;border-top:1px dashed var(--line)}
+  .ledger li:first-child{border-top:0}
+  .ledger .k{color:var(--warn)}
+
+  .note{
+    margin:18px 0 0;padding:12px 14px;border-left:2px solid var(--warn);
+    background:color-mix(in srgb, var(--warn) 8%, transparent);
+    font-size:13px;color:var(--fg);border-radius:0 6px 6px 0;
+  }
+  .note p{margin:0;max-width:none}
+
+  footer{padding:6px 0 48px;font-size:12px;color:var(--dim);line-height:1.6}
+  footer p{max-width:80ch;margin:0 0 9px}
+
+  @media (prefers-reduced-motion:no-preference){
+    a,.themes button,.out a{transition:color .12s ease,background-color .12s ease,border-color .12s ease}
+  }
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <div class="shell">
+    <ul class="ws">
+      <li><a href="#person"><span class="n">1</span>person</a></li>
+      <li><a href="#work"><span class="n">2</span>work</a></li>
+      <li><a href="#proof"><span class="n">3</span>proof</a></li>
+      <li><a href="#fit"><span class="n">4</span>fit</a></li>
+      <li><a href="#gap"><span class="n">5</span>gap</a></li>
+      <li><a href="#logistics"><span class="n">6</span>logistics</a></li>
+      <li><a href="#contact"><span class="n">7</span>contact</a></li>
+    </ul>
+    <div class="status">
+      <span>Aberdeen</span>
+      <span class="sep">·</span>
+      <span class="live">available now</span>
+      <span class="sep">·</span>
+      <span class="themes" role="group" aria-label="Theme">
+        <button type="button" data-set="tokyo-night" aria-pressed="true">tokyo</button>
+        <button type="button" data-set="catppuccin" aria-pressed="false">catppuccin</button>
+        <button type="button" data-set="gruvbox" aria-pressed="false">gruvbox</button>
+        <button type="button" data-set="nord" aria-pressed="false">nord</button>
+      </span>
+    </div>
+  </div>
+</div>
+
+<main class="shell">
+
+  <!-- ── lede ─────────────────────────────────────────────────────────── -->
+  <section class="pane lede" aria-labelledby="lede-h">
+    <p class="prompt"><span class="u">javier</span><span class="dim">@</span><span class="p">aberdeen</span> <span class="dim">~</span> <span class="c">$ cat application.md</span></p>
+    <div class="body">
+      <h1 id="lede-h">Ten years on the other end of the support email, and a machine I own.</h1>
+      <p>Apple Retail, 2014 to 2024: diagnosis, the Genius Bar, remote support, then leading shop-floor experience across two stores. Now I build and ship small software of my own, and Omarchy is what I work on every day.</p>
+      <p>This is an unaffiliated application to 37signals, written in the idiom of the operating system you incubated. <span class="kicker">Your jobs page says nothing is open.</span> Good — then this isn't a cold apply to a req. It's a candidate telling you where he is, and asking what the distance is.</p>
+    </div>
+  </section>
+
+  <!-- ── 1. person ────────────────────────────────────────────────────── -->
+  <section class="pane" id="person" aria-labelledby="person-h">
+    <h2 id="person-h"><span class="path">~/whoami</span> <span class="tag">who I am</span></h2>
+    <div class="body">
+      <p>Javier Ponz. Originally from Madrid, living in Aberdeen, Scotland. Career changer, second year, studying AI and full-stack development.</p>
+      <p>Between 2014 and 2024 I worked across Apple Retail Spain, with responsibilities including Specialist, Technical Specialist and, for six and a half years, Genius — plus a spell as a remote AppleCare Support Advisor during COVID. Mostly hands-on diagnosis: difficult cases, incomplete information, people with very different levels of technical confidence.</p>
+      <p>Twice I left the bench for a seven-month In-Store Experience Lead secondment. Planning, resourcing, the situations that fit no procedure. Both taught me the same thing: <strong>leading is serving</strong>. Not being the cleverest person in the room — making the room work. I had that sentence written down long before I read anyone's doctrine, and I'd rather say so than pretend it came from agreeing with you.</p>
+    </div>
+  </section>
+
+  <!-- ── 2. work ──────────────────────────────────────────────────────── -->
+  <section class="pane" id="work" aria-labelledby="work-h">
+    <h2 id="work-h"><span class="path">~/bin</span> <span class="tag">what I bring</span></h2>
+    <div class="body">
+      <p class="dim">Not five years of production engineering. Ten years of support, operating discipline and customer-facing problem solving, pointed at software I now write and run myself.</p>
+      <div class="cards">
+        <div class="card">
+          <span class="badge">Support</span>
+          <h3>It isn't a rotation for me</h3>
+          <p>You put everyone on support because it keeps the company honest. I did it as the whole job, for a decade, in person and on the phone — thousands of people arriving angry, confused, or holding a dead machine with their only copy of something on it.</p>
+        </div>
+        <div class="card">
+          <span class="badge">Shipping</span>
+          <h3>Small things, actually finished</h3>
+          <p>Thirteen sites in production on a VPS I administer: Docker Swarm, Traefik, Let's Encrypt, a health check on each one and a release gate that refuses to publish on red. Boring in the way working software should be.</p>
+        </div>
+        <div class="card">
+          <span class="badge">Agents</span>
+          <h3>Run daily, with a leash</h3>
+          <p>MCP tools, skills and Docker, every day. Explicit context and permissions, then verify what comes back. I label which of my repositories I wrote and which I specified for an agent to write, because blurring that line is how trust goes.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 3. proof ─────────────────────────────────────────────────────── -->
+  <section class="pane" id="proof" aria-labelledby="proof-h">
+    <h2 id="proof-h"><span class="path">~/src</span> <span class="tag">built and shipped</span></h2>
+    <div class="body">
+      <p>Inspect the work rather than take my word for it.</p>
+      <ul class="items">
+        <li>
+          <span class="badge">Shipped solo</span>
+          <h3>Memento Mori</h3>
+          <p>A privacy-first web product: no accounts, no analytics, nothing to log in to. Plain HTML, CSS and ES modules. Docker, nginx and Traefik behind release checks.</p>
+          <div class="out">
+            <a href="https://memento.technoir.cloud/">Live</a>
+            <a href="https://github.com/ponzgpt/memento-mori">Source</a>
+          </div>
+        </li>
+        <li>
+          <span class="badge">Specified · agent-built · a fork</span>
+          <h3>The Aberdeen Daily</h3>
+          <p>A local morning paper for this city that writes itself at 06:00, checks itself, and deploys itself within fifteen minutes of the commit. The editorial contract is narrow on purpose — positive and practical only, every story with its sources, never a venue, date or price the source did not give — and the build refuses an edition that still has unresolved marks in it. A fork of vaelkeep/hermes-paper-agent, adapted and operated by me.</p>
+          <div class="out">
+            <a href="https://aberdeen-daily.technoir.cloud/">Live</a>
+            <a href="https://github.com/ponzgpt/aberdeen-daily">Source</a>
+          </div>
+        </li>
+        <li>
+          <span class="badge">Specified · agent-built</span>
+          <h3>Hermes PKM Toolkit</h3>
+          <p>MCP tools for local Markdown vaults, with path-traversal protection and tests — because giving a model file access needs a boundary I can explain out loud.</p>
+          <div class="out">
+            <a href="https://github.com/ponzgpt/hermes-pkm-toolkit">Source</a>
+          </div>
+        </li>
+      </ul>
+      <div class="note"><p>Every repository I own states its scope, its status and what it is not. I would rather publish a short honest README than a long one that oversells — and I'd rather show you the line between what I wrote and what an agent wrote than blur it.</p></div>
+    </div>
+  </section>
+
+  <!-- ── 4. fit ───────────────────────────────────────────────────────── -->
+  <section class="pane" id="fit" aria-labelledby="fit-h">
+    <h2 id="fit-h"><span class="path">~/fit</span> <span class="tag">why 37signals, by way of Omarchy</span></h2>
+    <div class="body">
+      <p>I didn't arrive at 37signals by reading the founder. I arrived by running the things: a machine I can alter, plain files I can read, software small enough to finish. Omarchy is the first desktop that treated that as the point rather than an inconvenience, and it sent me back to the company that incubated it.</p>
+      <p>The Omarchy Doctrine runs ten lines. Five of them already describe how I work, which is the only reason this page is worth your time:</p>
+      <ul class="map">
+        <li><span class="k">Own the machine</span><span class="v">My own VPS, administered by me: thirteen services, no platform-as-a-service between me and the box. Omarchy on the desk for the same reason.</span></li>
+        <li><span class="k">Command is service</span><span class="v">Two secondments leading shop-floor experience. The job was clearing what was in the team's way and handing over the reasoning instead of the answer.</span></li>
+        <li><span class="k">Welcome the agents</span><span class="v">Agents in my daily loop, with explicit permissions and verification — and with the authorship of every repository stated plainly.</span></li>
+        <li><span class="k">Beauty is truth</span><span class="v">Release gates that refuse to publish on red. A README that says what a thing is not. Taste, spent on the boring parts.</span></li>
+        <li><span class="k">You're somebody now</span><span class="v">I'm a career changer with no computer-science degree. Your jobs page says you don't care where I went to school — which is fortunate, because the answer is: I'm still going.</span></li>
+      </ul>
+      <p style="margin-top:20px">The rest of the fit is the company, not the OS. Six-week cycles and a calm, low-distraction place to work are how I already operate: one thing at a time, finished, documented, deployed. A "Manager of One" is what running your own production estate makes of you whether you wanted it or not.</p>
+    </div>
+  </section>
+
+  <!-- ── 5. gap ───────────────────────────────────────────────────────── -->
+  <section class="pane" id="gap" aria-labelledby="gap-h">
+    <h2 id="gap-h"><span class="path">~/gap</span> <span class="tag">where I'm still learning</span></h2>
+    <div class="body">
+      <p>The gap is specific. I'll name it once and not decorate it.</p>
+      <ul class="ledger">
+        <li><span class="k">Ruby and Rails</span> — not a language I know. I'm not going to claim it to the person who wrote the framework. If it matters, tell me and it becomes the next thing I learn properly rather than the next thing I skim.</li>
+        <li><span class="k">Backend engineering at depth</span> — APIs and auth, observability, networking, the infrastructure around production systems. I run Docker, Traefik and nginx in production; I have not shipped enterprise software for five years, and I won't write like I have.</li>
+        <li><span class="k">Omarchy contributions</span> — I run it. I have not landed a patch. That is a thing I intend, not a thing I'm claiming, and it stays off this page until it's true.</li>
+        <li><span class="k">Seniority</span> — I'm early and I know it. I'd rather show you what I've built and let you judge the level than tell you a number.</li>
+      </ul>
+      <p style="margin-top:18px">What I do have: a decade of hands-on support, the habit of finding the fault instead of performing confidence, and the willingness to learn in the place where the system has to work. I learn this with an LLM and an agent harness beside me, and I'm after the 20% that makes a system operable — enough to deploy it, read what the harness proposes, and catch it when it's wrong.</p>
+    </div>
+  </section>
+
+  <!-- ── 6. logistics ─────────────────────────────────────────────────── -->
+  <section class="pane" id="logistics" aria-labelledby="log-h">
+    <h2 id="log-h"><span class="path">~/logistics</span> <span class="tag">based, available, reachable</span></h2>
+    <div class="body">
+      <p>Aberdeen, Scotland. Comfortable across UK and European hours and used to overlapping with the US afternoon. Happy to travel when being in the room matters, open to relocation for the right fit. No notice period — I can start now.</p>
+    </div>
+  </section>
+
+  <!-- ── 7. contact ───────────────────────────────────────────────────── -->
+  <section class="pane" id="contact" aria-labelledby="contact-h">
+    <h2 id="contact-h"><span class="path">~/contact</span> <span class="tag">the ask</span></h2>
+    <div class="body">
+      <p>There's no opening, so I'm not asking for one. The ask is smaller and it doesn't expire:</p>
+      <p style="font-size:16px"><strong>Tell me what the distance is between where I am and someone you'd hire.</strong> I'll go close it and come back with the work, not the claim.</p>
+      <div class="out" style="margin-top:16px">
+        <a href="mailto:nerion89@gmail.com?subject=Omarchy%20%E2%80%94%2037signals%20application">nerion89@gmail.com</a>
+        <a href="https://javierponz.technoir.cloud/?skin=omarchy">Portfolio &amp; CV</a>
+        <a href="https://github.com/ponzgpt">github.com/ponzgpt</a>
+        <a href="https://www.linkedin.com/in/javierponz">LinkedIn</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p><strong>Not affiliated with 37signals or Omarchy.</strong> This is a personal page on my own domain: no logo, no endorsement, no relationship of any kind, and nothing here is anyone's code or assets but mine. 37signals' jobs page is at <a href="https://37signals.com/jobs/">37signals.com/jobs</a>; Omarchy is at <a href="https://omarchy.org/">omarchy.org</a>.</p>
+    <p>The look is an equivalence, not a copy — a bar, tiled panes and a monospace face, because that is what using the thing looks like. The four palettes are their upstream projects' own (Tokyo Night, Catppuccin, Gruvbox, Nord), reproduced from those projects rather than from Omarchy's theme files. Hand-written HTML, one file, no build step, no framework, no analytics.</p>
+  </footer>
+
+</main>
+
+<script>
+  // Theme switching, the whole of it. The page renders correctly with this
+  // script blocked: the default theme is already on <html>.
+  (function () {
+    var root = document.documentElement;
+    var buttons = Array.prototype.slice.call(document.querySelectorAll('.themes button'));
+    var valid = buttons.map(function (b) { return b.dataset.set; });
+
+    function apply(name) {
+      if (valid.indexOf(name) === -1) return;
+      root.setAttribute('data-theme', name);
+      buttons.forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.set === name)); });
+      try { localStorage.setItem('theme', name); } catch (e) { /* private window, blocked storage */ }
+    }
+
+    try {
+      var saved = localStorage.getItem('theme');
+      if (saved) apply(saved);
+    } catch (e) { /* same */ }
+
+    buttons.forEach(function (b) {
+      b.addEventListener('click', function () { apply(b.dataset.set); });
+    });
+  })();
+</script>
+</body>
+</html>

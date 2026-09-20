@@ -5,8 +5,8 @@ When I apply to a company, I send a short site about me written for them: their 
 | Company | Site | Status |
 |---|---|---|
 | Nous Research | https://nousresearch.technoir.cloud | Active, priority |
-| 37signals | https://37signals.technoir.cloud | Back burner |
+| 37signals, by way of Omarchy | https://omarchy.technoir.cloud | Active |
 
 None of these sites is affiliated with or endorsed by the company it addresses.
 
-Each folder keeps its own README and history (merged from `ponzgpt/nousresearch-application` and `ponzgpt/37signals-application`). Adding a company, checking and deploying: see [AGENTS.md](AGENTS.md) and [DEPLOYMENT.md](DEPLOYMENT.md).
+`37signals.technoir.cloud` is the application's first address and now redirects to `omarchy.technoir.cloud`. Each folder keeps its own README and history (merged from `ponzgpt/nousresearch-application` and `ponzgpt/37signals-application`). Adding a company, checking and deploying: see [AGENTS.md](AGENTS.md) and [DEPLOYMENT.md](DEPLOYMENT.md).

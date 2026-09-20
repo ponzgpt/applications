@@ -4,5 +4,5 @@ set -euo pipefail
 cd "$(git rev-parse --show-toplevel)"
 (cd nousresearch && node build.mjs && node check.mjs)
 git diff --exit-code --stat -- nousresearch/index.html nousresearch/es nousresearch/zh nousresearch/sitemap.xml || { echo "nousresearch: built HTML differs from the committed files; commit the build." >&2; exit 1; }
-grep -q 'Not affiliated' 37signals/index.html || grep -qi 'not affiliated' 37signals/index.html || { echo "37signals: the not-affiliated statement is missing" >&2; exit 1; }
+(cd omarchy && node check.mjs)
 echo "check passed"
