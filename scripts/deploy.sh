@@ -1,24 +1,29 @@
 #!/usr/bin/env bash
-# Build HEAD on the VPS and roll it out as a Swarm service behind Traefik. See DEPLOYMENT.md.
+# Build ONE site's HEAD on the VPS and roll it out as its own Swarm service. See DEPLOYMENT.md.
+# Usage: ./scripts/deploy.sh <site>
+#
+# One site, one service, one Traefik file: deploying here cannot ship another
+# company's page, so two people (or two sessions) can work in this repo at once.
 set -euo pipefail
+cd "$(git rev-parse --show-toplevel)"
 
-APP=applications
-# One host per application site; add a company here and in nginx.conf.
-DOMAINS="nousresearch.technoir.cloud nouscandidate.technoir.cloud omarchy.technoir.cloud 37signals.technoir.cloud"
+SITE=${1:-}
+[ -n "$SITE" ] && [ -d "sites/$SITE" ] || { echo "usage: $0 <site>   (one of: $(ls -1 sites | tr '\n' ' '))" >&2; exit 1; }
+
+APP=applications-$SITE
+DOMAINS=$(tr '\n' ' ' < "sites/$SITE/hosts")
 DOMAIN=${DOMAINS%% *}
 RULE=$(printf 'Host("%s") || ' $DOMAINS); RULE="'${RULE% || }'"   # Traefik accepts double-quoted hosts; single quotes keep it one YAML string
 PORT=80
-CHECK='./scripts/check.sh'
 HOST=${HOST:-hoid}
 
-cd "$(git rev-parse --show-toplevel)"
 [ -z "$(git status --porcelain --untracked-files=no)" ] || { echo "Commit first: deploys are tied to a SHA." >&2; exit 1; }
-bash -c "$CHECK"
+./scripts/check.sh "$SITE"
 SHA=$(git rev-parse --short HEAD)
 
 echo "→ $APP:$SHA → $HOST"
 git archive --format=tar HEAD | ssh "$HOST" "rm -rf /opt/$APP/$SHA && mkdir -p /opt/$APP/$SHA && tar -x -C /opt/$APP/$SHA"
-ssh "$HOST" "docker build -q -t $APP:$SHA /opt/$APP/$SHA" >/dev/null
+ssh "$HOST" "docker build -q -f /opt/$APP/$SHA/sites/$SITE/Dockerfile -t $APP:$SHA /opt/$APP/$SHA" >/dev/null
 
 ssh "$HOST" bash -s <<REMOTE
 set -euo pipefail

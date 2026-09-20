@@ -9,4 +9,4 @@ When I apply to a company, I send a short site about me written for them: their 
 
 None of these sites is affiliated with or endorsed by the company it addresses.
 
-`37signals.technoir.cloud` is the application's first address and now redirects to `omarchy.technoir.cloud`. Each folder keeps its own README and history (merged from `ponzgpt/nousresearch-application` and `ponzgpt/37signals-application`). Adding a company, checking and deploying: see [AGENTS.md](AGENTS.md) and [DEPLOYMENT.md](DEPLOYMENT.md).
+`37signals.technoir.cloud` is the application's first address and now redirects to `omarchy.technoir.cloud`. Each site lives in `sites/<company>/` with its own README, history (merged from `ponzgpt/nousresearch-application` and `ponzgpt/37signals-application`), nginx config, Dockerfile and hosts — and deploys as its own service, so working on one cannot ship another. Adding a company, checking and deploying: see [AGENTS.md](AGENTS.md) and [DEPLOYMENT.md](DEPLOYMENT.md).
